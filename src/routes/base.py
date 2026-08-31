@@ -8,6 +8,7 @@ base_router = APIRouter(
 )
 
 @base_router.get("/")
+@base_router.get("/health")
 async def welcome(request: Request, app_settings: Settings = Depends(get_settings)):
 
     app_name = app_settings.APP_NAME
