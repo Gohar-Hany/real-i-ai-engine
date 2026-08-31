@@ -97,29 +97,57 @@ def run_agent_chat(
     active_guidelines: list = None,
 ) -> str:
     """
-    Runs the orchestrator agent (REAL_i) for a single conversation turn.
+    Runs high-performance, grounded conversational study assistance using direct RAG + Qwen 2.5 72B.
+    Eliminates LiteLLM/CrewAI proxy formatting crashes while maintaining deep context grounding.
     """
-    llm = get_llm()
-    tools = create_orchestrator_tools(nlp_controller, project)
-    
-    orchestrator_agent = Agent(
-        role="REAL_i (Study Assistant)",
-        goal="Help students understand their course materials and study effectively.",
-        backstory=ORCHESTRATOR_SYSTEM_PROMPT,
-        tools=tools,
-        llm=llm,
-        verbose=True,
-        allow_delegation=False,
-        max_iter=4
-    )
-    
-    # Format chat history
-    formatted_history = ""
-    for msg in chat_history:
-        role = "Student" if msg["role"] == "user" else "REAL_i"
-        formatted_history += f"{role}: {msg['content']}\n"
+    import re
+    clean_msg = str(user_message or "").strip()
+    clean_msg_lower = clean_msg.lower()
+
+    # 1. Check if user is requesting a quiz
+    quiz_keywords = ["كويز", "امتحان", "اختبار", "quiz", "exam", "test", "questions", "أسئلة", "اسئله"]
+    is_quiz_intent = any(k in clean_msg_lower for k in quiz_keywords) and any(w in clean_msg_lower for w in ["اعمل", "عايز", "سوي", "generate", "create", "give me", "start", "make"])
+
+    if is_quiz_intent:
+        # Extract number of questions if present
+        num_q = 5
+        match = re.search(r'(\d+)\s*(?:questions|question|سؤال|اسئلة|أسئلة|mcq|mcqs)?', clean_msg_lower)
+        if match:
+            try:
+                num_q = max(1, min(20, int(match.group(1))))
+            except:
+                num_q = 5
         
-    # Format active guidelines from instructor
+        # Run quiz generation
+        topic = clean_msg
+        quiz_data = run_agent_quiz(
+            project_id=project_id,
+            topic=topic,
+            nlp_controller=nlp_controller,
+            project=project,
+            num_questions=num_q
+        )
+        return f"🎉 تم إنشاء الكويز بنجاح ({len(quiz_data.get('questions', []))} أسئلة)!\n\n```json\n{json.dumps(quiz_data, ensure_ascii=False, indent=2)}\n```"
+
+    # 2. Semantic Search in Course Materials (RAG)
+    course_context = ""
+    try:
+        if nlp_controller and project:
+            retrieved_docs = nlp_controller.search_vector_db_collection(
+                project=project,
+                text=clean_msg,
+                limit=5
+            )
+            if retrieved_docs and isinstance(retrieved_docs, list) and len(retrieved_docs) > 0:
+                snippets = []
+                for idx, doc in enumerate(retrieved_docs):
+                    doc_text = getattr(doc, 'text', str(doc))
+                    snippets.append(f"--- Document Section {idx+1} ---\n{doc_text}")
+                course_context = "\n".join(snippets)
+    except Exception as e:
+        logger.warning(f"RAG search error during chat: {e}")
+
+    # 3. Active Guidelines
     guidelines_prompt = ""
     if active_guidelines:
         guidelines_prompt = "\n## Active Instructor Guidelines for today's session:\n"
@@ -127,42 +155,52 @@ def run_agent_chat(
             guidelines_prompt += f"- [{g.task_id}] (Type: {g.task_type}, Priority: {g.priority}): {g.description}\n"
         guidelines_prompt += "\nAs REAL_i, you MUST steer the conversation and focus your help on these guidelines to help the student learn what the instructor specified.\n"
 
-    chat_task = Task(
-        description=f"""
-The student is asking a question or requesting study help.
-Here is the previous conversation history:
-{formatted_history}
+    # 4. Construct System & User Prompt
+    system_prompt = f"""{ORCHESTRATOR_SYSTEM_PROMPT}
+
 {guidelines_prompt}
-Student's new message: "{user_message}"
 
-Decide whether to use the search or answer tools to find information in the course materials, 
-or call the 'Generate Quiz from Course Materials' tool if they want a quiz, 
-or respond directly if it is a general message (greeting, simple chat).
+COURSE MATERIALS CONTEXT:
+{course_context if course_context else "No specific course documents retrieved for this query. Use your broad technical knowledge and clarify if material is missing."}
+"""
 
-CRITICAL QUIZ INSTRUCTIONS: If the student requests a quiz, exam, or test:
-- You MUST extract the exact number of questions the student requested (e.g., "10 questions", "15 سؤال", "20 MCQs").
-- Pass the extracted number as the 'num_questions' parameter to the quiz generation tool.
-- If the student does NOT specify a number, default to 5.
-- NEVER override or reduce the requested number of questions. If they ask for 10, you MUST pass num_questions=10.
-
-CRITICAL SEARCH INSTRUCTIONS:
-- If the RAG tools return "No relevant materials found" or state that the topic is not covered in the documents, do NOT retry searching with the same or similar queries. Stop searching immediately and answer the student honestly that their course materials do not contain this information.
-
-Always respond in a friendly, supportive tone matching the student's language (Arabic or English).
-""",
-        expected_output="A helpful, accurate response to the student's message.",
-        agent=orchestrator_agent
-    )
+    messages = [{"role": "system", "content": system_prompt}]
     
-    crew = Crew(
-        agents=[orchestrator_agent],
-        tasks=[chat_task],
-        process=Process.sequential,
-        verbose=True
-    )
-    
-    result = crew.kickoff()
-    return str(result.raw)
+    # Add previous history
+    for msg in chat_history[-8:]:
+        role = "user" if msg.get("role") in ["user", "student"] else "assistant"
+        messages.append({"role": role, "content": msg.get("content", "")})
+        
+    messages.append({"role": "user", "content": clean_msg})
+
+    # 5. Direct LLM Synthesis via OpenRouter
+    response_text = ""
+    try:
+        settings = get_settings()
+        api_key = settings.OPENAI_API_KEY
+        api_url = settings.OPENAI_API_URL or "https://openrouter.ai/api/v1"
+        model_name = settings.GENERATION_MODEL_ID or "qwen/qwen-2.5-72b-instruct"
+
+        from openai import OpenAI
+        client = OpenAI(base_url=api_url, api_key=api_key)
+        completion = client.chat.completions.create(
+            model=model_name,
+            messages=messages,
+            temperature=0.3,
+            max_tokens=2048
+        )
+        response_text = completion.choices[0].message.content.strip()
+    except Exception as err:
+        logger.error(f"OpenAI client error in run_agent_chat: {err}")
+        try:
+            llm = get_llm()
+            res = llm.call(messages=messages)
+            response_text = str(res)
+        except Exception as e2:
+            logger.error(f"Fallback LLM failed: {e2}")
+            response_text = "عذراً، حدث خطأ أثناء معالجة استفسارك. يرجى المحاولة مرة أخرى."
+
+    return response_text
 
 
 def run_agent_quiz(
