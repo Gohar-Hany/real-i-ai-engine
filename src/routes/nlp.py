@@ -136,18 +136,18 @@ async def search_index(request: Request, project_id: str, search_request: Search
         project=project, text=search_request.text, limit=search_request.limit
     )
 
-    if not results:
+    if results is None:
         return JSONResponse(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                content={
-                    "signal": ResponseSignal.VECTORDB_SEARCH_ERROR.value
-                }
-            )
+            status_code=status.HTTP_400_BAD_REQUEST,
+            content={
+                "signal": ResponseSignal.VECTORDB_SEARCH_ERROR.value
+            }
+        )
     
     return JSONResponse(
         content={
             "signal": ResponseSignal.VECTORDB_SEARCH_SUCCESS.value,
-            "results": [ result.dict()  for result in results ]
+            "results": [ result.dict() for result in results ] if results else []
         }
     )
 
