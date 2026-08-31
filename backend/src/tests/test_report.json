@@ -1,5 +1,5 @@
 {
-  "report_title": "Raaed RAG Pipeline — E2E API Test Report",
+  "report_title": "REAL_i RAG Pipeline — E2E API Test Report",
   "generated_at": "2026-06-16T11:57:56.871608+00:00",
   "base_url": "http://localhost:8000",
   "project_id": "testproject1",
@@ -20,7 +20,7 @@
       "passed": true,
       "response_time_ms": 223.15,
       "response_body": {
-        "app_name": "RAAED",
+        "app_name": "REAL_i",
         "app_version": "0.1",
         "services": {
           "mongodb": "online",
@@ -34,7 +34,7 @@
         }
       },
       "error": null,
-      "notes": "app_name=RAAED, version=0.1",
+      "notes": "app_name=REAL_i, version=0.1",
       "timestamp": "2026-06-16T11:57:30.165604+00:00"
     },
     {

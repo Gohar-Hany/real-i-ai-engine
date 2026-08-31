@@ -1,4 +1,4 @@
-# Raaed RAG Pipeline - Requirements
+# REAL_i RAG Pipeline - Requirements
 # ====================================
 # For best results, use the conda environment.yml instead.
 # If using pip directly, install in this exact order:

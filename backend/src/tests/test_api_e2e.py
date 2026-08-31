@@ -1,5 +1,5 @@
 """
-Raaed RAG Pipeline — End-to-End API Test Suite
+REAL_i RAG Pipeline — End-to-End API Test Suite
 ================================================
 Comprehensive automated testing of all API endpoints.
 Tests the full lifecycle: health check → upload → process → index → search → RAG answer.
@@ -68,7 +68,7 @@ def record_result(test_name: str, endpoint: str, method: str,
 
 async def run_tests():
     print("\n" + "=" * 80)
-    print("  RAAED RAG PIPELINE — END-TO-END API TEST SUITE")
+    print("  REAL_i RAG PIPELINE — END-TO-END API TEST SUITE")
     print("=" * 80)
     print(f"  Base URL:   {BASE_URL}")
     print(f"  Project ID: {PROJECT_ID}")
@@ -139,7 +139,7 @@ async def run_tests():
         print("\n─── GROUP 2: File Upload ──────────────────────────────────")
 
         # Test 2.1: Upload valid TXT file
-        txt_content = b"This is a sample text file for testing the Raaed RAG pipeline. " * 20
+        txt_content = b"This is a sample text file for testing the REAL_i RAG pipeline. " * 20
         start = time.time()
         r = await client.post(
             f"/api/v1/data/upload/{PROJECT_ID}",
@@ -551,7 +551,7 @@ async def run_tests():
         r = await client.post(
             f"/api/v1/agent/chat/{PROJECT_ID}",
             json={
-                "message": "Hi Raaed, I want to learn Python.",
+                "message": "Hi REAL_i, I want to learn Python.",
                 "session_id": "test_session_999"
             }
         )
@@ -663,7 +663,7 @@ async def run_tests():
     
     # Save report as JSON
     report = {
-        "report_title": "Raaed RAG Pipeline — E2E API Test Report",
+        "report_title": "REAL_i RAG Pipeline — E2E API Test Report",
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "base_url": BASE_URL,
         "project_id": PROJECT_ID,

@@ -72,7 +72,7 @@ def run_admin_crew(
     try:
         from pymongo import MongoClient
         client = MongoClient(settings.MONGODB_URL)
-        db = client[settings.MONGODB_DATABASE or "raad-rag"]
+        db = client[settings.MONGODB_DATABASE or "reali-db"]
         
         projects = list(db["projects"].find({}))
         assets = list(db["assets"].find({}))
@@ -122,7 +122,7 @@ def run_admin_crew(
         try:
             from pymongo import MongoClient
             client = MongoClient(settings.MONGODB_URL)
-            db = client[settings.MONGODB_DATABASE or "raad-rag"]
+            db = client[settings.MONGODB_DATABASE or "reali-db"]
             
             # 1. Generate task ID
             guidelines = list(db["instructor_guidelines"].find({}))
@@ -223,7 +223,7 @@ def run_admin_crew(
     formatted_history = ""
     if chat_history:
         for msg in chat_history:
-            role = "Instructor" if msg["role"] == "user" else "RaaedAdmin"
+            role = "Instructor" if msg["role"] == "user" else "REAL_i_Admin"
             formatted_history += f"{role}: {msg['content']}\n"
 
     # Single conversational task

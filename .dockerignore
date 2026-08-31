@@ -8,8 +8,8 @@ frontend/
 node_modules/
 src/assets/files/*
 src/assets/database/*
-raad_chroma_db/
-raad_qdrant_db/
+reali_chroma_db/
+reali_qdrant_db/
 venv/
 .venv/
 conda-env/

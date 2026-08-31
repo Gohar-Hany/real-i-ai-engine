@@ -46,11 +46,11 @@ graph TD
 1. افتح Terminal في جذر المشروع `d:\REAL_i`.
 2. قم ببناء الصورة:
    ```bash
-   docker build -t raaed-backend .
+   docker build -t reali-backend .
    ```
 3. قم بتشغيل الصورة للتجربة (مع تمرير ملف `.env`):
    ```bash
-   docker run -p 5000:5000 --env-file .env raaed-backend
+   docker run -p 5000:5000 --env-file .env reali-backend
    ```
 4. تأكد من أن الـ API يعمل بطلب `http://localhost:5000/`.
 
@@ -64,18 +64,18 @@ graph TD
 2. اضغط على **Create a resource** ثم ابحث عن **Storage account** واضغط **Create**.
 3. قم بملء البيانات:
    * **Subscription:** اختر اشتراكك (مثال: Azure for Students).
-   * **Resource Group:** أنشئ مجموعة جديدة باسم `raaed-group`.
-   * **Storage account name:** اختر اسمًا فريدًا صغيرًا (مثال: `raaedstorage`).
+   * **Resource Group:** أنشئ مجموعة جديدة باسم `reali-group`.
+   * **Storage account name:** اختر اسمًا فريدًا صغيرًا (مثال: `realistorage`).
    * **Region:** اختر نفس منطقتك (يفضل غرب أوروبا `West Europe` أو شرق الولايات المتحدة `East US`).
    * **Performance:** اختر **Standard**.
    * **Redundancy:** اختر **Locally-redundant storage (LRS)** لتقليل التكلفة القصوى.
 4. اضغط على **Review + create** ثم **Create**.
 
 ### إنشاء مجلدات التخزين المشتركة (File Shares):
-بعد اكتمال الإنشاء، اذهب إلى الحساب السحابي المنشأ (`raaedstorage`):
+بعد اكتمال الإنشاء، اذهب إلى الحساب السحابي المنشأ (`realistorage`):
 1. من القائمة الجانبية، اضغط على **File shares** (تحت قسم *Data storage*).
-2. اضغط على **+ File share** وأنشئ وحدة تخزين باسم: `raaed-files` (لتخزين ملفات الـ PDFs المرفوعة للمساقات).
-3. اضغط على **+ File share** مرة أخرى وأنشئ وحدة تخزين باسم: `raaed-db` (لتخزين قاعدة بيانات الفيكتور Qdrant/Chroma).
+2. اضغط على **+ File share** وأنشئ وحدة تخزين باسم: `reali-files` (لتخزين ملفات الـ PDFs المرفوعة للمساقات).
+3. اضغط على **+ File share** مرة أخرى وأنشئ وحدة تخزين باسم: `reali-db` (لتخزين قاعدة بيانات الفيكتور Qdrant/Chroma).
 4. حدد السعة المقترحة بـ **10 GB** أو أكثر (يمكن زيادتها لاحقًا بسهولة وتكلفتها بسيطة جدًا بالـ Cent).
 
 ---
@@ -86,8 +86,8 @@ graph TD
 
 1. في بوابة Azure، ابحث عن **Container registries** واضغط **Create**.
 2. قم بتعبئة البيانات:
-   * **Resource Group:** اختر `raaed-group`.
-   * **Registry name:** اختر اسمًا فريدًا (مثال: `raaedregistry`).
+   * **Resource Group:** اختر `reali-group`.
+   * **Registry name:** اختر اسمًا فريدًا (مثال: `realiregistry`).
    * **Location:** نفس موقع الـ Storage account.
    * **SKU:** اختر **Basic** (كافية تمامًا لمشاريع التخرج ورخيصة جدًا).
 3. اضغط **Review + create** ثم **Create**.
@@ -98,13 +98,13 @@ graph TD
 
 ```bash
 # 1. تسجيل الدخول إلى سجل Azure (سيطلب منك كلمة المرور من صفحة Access Keys)
-docker login raaedregistry.azurecr.io
+docker login realiregistry.azurecr.io
 
 # 2. وضع وسم (Tag) للصورة المحلية لتتوافق مع آژور
-docker tag raaed-backend raaedregistry.azurecr.io/raaed-backend:v1
+docker tag reali-backend realiregistry.azurecr.io/reali-backend:v1
 
 # 3. رفع الصورة إلى السحاب
-docker push raaedregistry.azurecr.io/raaed-backend:v1
+docker push realiregistry.azurecr.io/reali-backend:v1
 ```
 
 ---
@@ -115,8 +115,8 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 
 1. في بوابة Azure، ابحث عن **App Services** واضغط **Create** -> **Web App**.
 2. قم بتعبئة البيانات في تبويب **Basics**:
-   * **Resource Group:** اختر `raaed-group`.
-   * **Name:** اختر اسمًا لـ API الخلفية (مثال: `raaed-api`). سيكون الرابط العام: `https://raaed-api.azurewebsites.net`.
+   * **Resource Group:** اختر `reali-group`.
+   * **Name:** اختر اسمًا لـ API الخلفية (مثال: `reali-api`). سيكون الرابط العام: `https://reali-api.azurewebsites.net`.
    * **Publish:** اختر **Container**.
    * **Operating System:** اختر **Linux**.
    * **Region:** نفس المنطقة السابقة.
@@ -127,28 +127,28 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
      > اختر خطة **Basic B2** أو **B3** (تأتي بذاكرة 4GB أو 8GB RAM مع معالج مميز) أو خطة **Premium V3 (P1v3)** إذا كان لديك رصيد طلابي كافٍ (Student Credits).
 3. اضغط على تبويب **Container** في الأعلى:
    * **Image Source:** اختر **Azure Container Registry**.
-   * **Registry:** اختر `raaedregistry`.
-   * **Image:** اختر `raaed-backend`.
+   * **Registry:** اختر `realiregistry`.
+   * **Image:** اختر `reali-backend`.
    * **Tag:** اختر `v1`.
 4. اضغط **Review + create** ثم **Create**.
 
 ### ربط مساحات التخزين المستمرة (Path Mappings):
 لكي يتم ربط مجلدات التخزين السحابي التي أنشأناها في الخطوة 2 بداخل الحاوية:
-1. اذهب إلى صفحة الـ Web App المنشأ (`raaed-api`).
+1. اذهب إلى صفحة الـ Web App المنشأ (`reali-api`).
 2. من القائمة الجانبية، اضغط على **Configuration** ثم اختر التبويب الثاني في الأعلى وهو **Path mappings**.
 3. اضغط على **+ New Azure Storage Mount**:
    * **Name:** `files-mount`
    * **Configuration Options:** Basic
-   * **Storage Accounts:** اختر `raaedstorage`
+   * **Storage Accounts:** اختر `realistorage`
    * **Storage Type:** Azure Files
-   * **Storage Container (File Share):** اختر `raaed-files`
+   * **Storage Container (File Share):** اختر `reali-files`
    * **Mount Path:** اكتب المسار داخل الحاوية بالضبط: `/app/src/assets/files`
 4. اضغط على **+ New Azure Storage Mount** مرة أخرى:
    * **Name:** `db-mount`
    * **Configuration Options:** Basic
-   * **Storage Accounts:** اختر `raaedstorage`
+   * **Storage Accounts:** اختر `realistorage`
    * **Storage Type:** Azure Files
-   * **Storage Container (File Share):** اختر `raaed-db`
+   * **Storage Container (File Share):** اختر `reali-db`
    * **Mount Path:** اكتب المسار داخل الحاوية بالضبط: `/app/src/assets/database`
 5. اضغط على **Save** في أعلى الصفحة لحفظ الإعدادات وإعادة تشغيل التطبيق.
 
@@ -171,7 +171,7 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 | `GOOGLE_SPREADSHEET_ID` | `1wMtkgZgVr2vIZvcxBRIePRbKF...` | معرف ورقة Google لعميل الأدمين. |
 | `GOOGLE_CLIENT_ID` | `725493678609-93vhjrdv2pt59p...` | حساب OAuth Google Client ID. |
 | `GOOGLE_CLIENT_SECRET` | `GOCSPX-0wrra70CQ2wiQ5-joh...` | حساب OAuth Google Client Secret. |
-| `ASSISTANT_WEBHOOK_URL` | `https://raaed-api.azurewebsites.net/api/v1/agent/webhook/task` | **مهم جدًا:** استبدل localhost برابط السيرفر الجديد على Azure لكي تتمكن webhook الخاصة بالـ Task من إرسال التنبيهات للخلفية مباشرة سحابيًا. |
+| `ASSISTANT_WEBHOOK_URL` | `https://reali-api.azurewebsites.net/api/v1/agent/webhook/task` | **مهم جدًا:** استبدل localhost برابط السيرفر الجديد على Azure لكي تتمكن webhook الخاصة بالـ Task من إرسال التنبيهات للخلفية مباشرة سحابيًا. |
 
 *اضغط على **Save** في الأعلى ثم تأكيد الإجراء لتطبيق المتغيرات وإعادة التشغيل.*
 
@@ -190,8 +190,8 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 ### ج. إنشاء Static Web App في Azure:
 1. في بوابة Azure، ابحث عن **Static Web Apps** واضغط **Create**.
 2. تعبئة البيانات:
-   * **Resource Group:** اختر `raaed-group`.
-   * **Name:** `raaed-frontend`
+   * **Resource Group:** اختر `reali-group`.
+   * **Name:** `reali-frontend`
    * **Plan type:** اختر **Free** (متاح مجانًا بنسبة 100%).
    * **Region:** اختر منطقة قريبة (مثال: `West Europe` أو `East US 2`).
 3. اضغط على **Sign in with GitHub** وقم بتسجيل الدخول وتفويض آژور.
@@ -212,7 +212,7 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 2. من القائمة الجانبية اضغط على **Configuration**.
 3. في تبويب **Application settings** اضغط على **+ Add**:
    * **Name:** `VITE_API_URL`
-   * **Value:** `https://raaed-api.azurewebsites.net/api/v1` (رابط الـ App Service API الذي قمنا بإنشائه بالخطوة 4).
+   * **Value:** `https://reali-api.azurewebsites.net/api/v1` (رابط الـ App Service API الذي قمنا بإنشائه بالخطوة 4).
 4. اضغط **Save**.
 5. سيقوم محرك GitHub Actions بإعادة بناء الموقع وحفظ الرابط بداخل ملفات الـ Javascript في نسخة الإنتاج بشكل تلقائي بالكامل!
 
@@ -242,7 +242,7 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 ## 8. الخطوة 7: التحقق والتشغيل والاختبار
 
 بمجرد اكتمال الرفع السحابي للخلفية والواجهة:
-1. **فحص الخلفية:** افتح المتصفح على الرابط: `https://raaed-api.azurewebsites.net/api/v1/admin/health` وتأكد من استجابة النظام بـ `{"status": "ok"}` أو ما شابه ومطابقة اتصال قاعدة البيانات بنجاح.
+1. **فحص الخلفية:** افتح المتصفح على الرابط: `https://reali-api.azurewebsites.net/api/v1/admin/health` وتأكد من استجابة النظام بـ `{"status": "ok"}` أو ما شابه ومطابقة اتصال قاعدة البيانات بنجاح.
 2. **فحص الـ Logs:** إذا حدثت أي مشكلة أثناء تشغيل الخلفية، يمكنك متابعة الـ Logs مباشرة عبر:
    * اذهب إلى الـ App Service السحابي -> **Log Stream** لمشاهدة المخرجات الفورية أثناء التشغيل.
 3. **فحص الواجهة:** افتح رابط الـ Static Web App وجرب إجراء العمليات الأساسية:
@@ -255,7 +255,7 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 
 كخالب تخرج، قد تنفد أرصدة الطلاب بسرعة إذا لم تكن حذرًا. اتبع هذه النصائح الاحترافية لتوفير المال:
 1. **إيقاف الخدمة عند عدم الاستخدام (Stop App Service):**
-   عند انتهاء فترات العمل على المشروع أو أثناء النوم، اذهب إلى صفحة الـ Web App (`raaed-api`) في بوابة Azure واضغط على زر **Stop**. لن تدفع تكاليف التشغيل عند توقف الخدمة. تذكر إعادة تشغيلها بالضغط على **Start** قبل البدء في التطوير أو العرض أمام اللجنة.
+   عند انتهاء فترات العمل على المشروع أو أثناء النوم، اذهب إلى صفحة الـ Web App (`reali-api`) في بوابة Azure واضغط على زر **Stop**. لن تدفع تكاليف التشغيل عند توقف الخدمة. تذكر إعادة تشغيلها بالضغط على **Start** قبل البدء في التطوير أو العرض أمام اللجنة.
 2. **استخدام طبقة B2/B3 المؤقتة:**
    يمكنك استخدام طبقة عالية الأداء أثناء العرض والتقييم لضمان سرعة فائقة للـ OCR ونماذج الذكاء الاصطناعي، ثم خفض تصنيف الخدمة (Scale down) إلى طبقة أقل بعد انتهاء العرض لتوفير المال.
 3. **تنظيف السجل الخاص بالحاويات (ACR Cleanup):**

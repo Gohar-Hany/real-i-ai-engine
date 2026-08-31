@@ -1,16 +1,16 @@
-# Raaed RAG Pipeline - Conda Environment
+# REAL_i RAG Pipeline - Conda Environment
 # ========================================
 # Python 3.10 is chosen for maximum compatibility with PaddleOCR,
 # EasyOCR, Docling, and Sentence-Transformers in a single env.
 #
 # Usage:
 #   conda env create -f environment.yml
-#   conda activate raaed
+#   conda activate reali
 #
 # To update an existing environment:
 #   conda env update -f environment.yml --prune
 
-name: raaed
+name: reali
 channels:
   - conda-forge
   - defaults

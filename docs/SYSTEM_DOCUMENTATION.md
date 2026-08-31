@@ -1212,7 +1212,7 @@ To run the evaluation suite locally:
 1. Stop the FastAPI server (to unlock the local Qdrant SQLite files).
 2. Execute the evaluation script inside `src/`:
    ```bash
-   wsl /home/gohar/miniconda3/envs/raaed/bin/python evaluation/evaluate_rag.py
+   wsl /home/gohar/miniconda3/envs/reali/bin/python evaluation/evaluate_rag.py
    ```
 3. Granular results are saved in `src/evaluation/evaluation_results.json`.
 

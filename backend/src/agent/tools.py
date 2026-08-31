@@ -1,5 +1,5 @@
 """
-CrewAI tool factories for the Raaed AI Agent.
+CrewAI tool factories for the REAL_i AI Agent.
 
 Tools are created via factory functions that close over the initialized
 NLPController and project, so they have direct access to the vector DB,

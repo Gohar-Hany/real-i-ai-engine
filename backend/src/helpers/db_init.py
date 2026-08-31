@@ -1,5 +1,5 @@
 """
-Database Initialization Helper for Raaed RAG Pipeline.
+Database Initialization Helper for REAL_i RAG Pipeline.
 
 Ensures all required MongoDB collections and indexes exist.
 This module is idempotent — safe to run on every application startup.

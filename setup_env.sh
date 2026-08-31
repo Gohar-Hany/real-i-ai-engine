@@ -1,6 +1,6 @@
 #!/bin/bash
 # ============================================================================
-# Raaed - Conda Environment Setup Script
+# REAL_i - Conda Environment Setup Script
 # ============================================================================
 # This script creates and configures the conda environment with the correct
 # installation order to avoid dependency conflicts between PaddleOCR,
@@ -14,7 +14,7 @@
 
 set -e  # Exit on error
 
-ENV_NAME="raaed"
+ENV_NAME="reali"
 PYTHON_VERSION="3.10"
 
 # Color output

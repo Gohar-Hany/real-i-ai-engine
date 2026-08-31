@@ -97,13 +97,13 @@ def run_agent_chat(
     active_guidelines: list = None,
 ) -> str:
     """
-    Runs the orchestrator agent (Raaed) for a single conversation turn.
+    Runs the orchestrator agent (REAL_i) for a single conversation turn.
     """
     llm = get_llm()
     tools = create_orchestrator_tools(nlp_controller, project)
     
     orchestrator_agent = Agent(
-        role="رائد (Study Assistant)",
+        role="REAL_i (Study Assistant)",
         goal="Help students understand their course materials and study effectively.",
         backstory=ORCHESTRATOR_SYSTEM_PROMPT,
         tools=tools,
@@ -116,7 +116,7 @@ def run_agent_chat(
     # Format chat history
     formatted_history = ""
     for msg in chat_history:
-        role = "Student" if msg["role"] == "user" else "Raaed"
+        role = "Student" if msg["role"] == "user" else "REAL_i"
         formatted_history += f"{role}: {msg['content']}\n"
         
     # Format active guidelines from instructor
@@ -125,7 +125,7 @@ def run_agent_chat(
         guidelines_prompt = "\n## Active Instructor Guidelines for today's session:\n"
         for g in active_guidelines:
             guidelines_prompt += f"- [{g.task_id}] (Type: {g.task_type}, Priority: {g.priority}): {g.description}\n"
-        guidelines_prompt += "\nAs Raaed, you MUST steer the conversation and focus your help on these guidelines to help the student learn what the instructor specified.\n"
+        guidelines_prompt += "\nAs REAL_i, you MUST steer the conversation and focus your help on these guidelines to help the student learn what the instructor specified.\n"
 
     chat_task = Task(
         description=f"""

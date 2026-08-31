@@ -1,4 +1,4 @@
-import asyncio, sys; sys.path.insert(0, 'd:/Raaed/src'); from motor.motor_asyncio import AsyncIOMotorClient; from helpers.config import get_settings; from models.UserModel import UserModel
+import asyncio, sys; sys.path.insert(0, 'd:/REAL_i/src'); from motor.motor_asyncio import AsyncIOMotorClient; from helpers.config import get_settings; from models.UserModel import UserModel
 async def seed():
  settings = get_settings()
  db = AsyncIOMotorClient(settings.MONGODB_URL)[settings.MONGODB_DATABASE]

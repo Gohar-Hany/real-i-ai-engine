@@ -3,7 +3,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
 
-    APP_NAME: str = "RAAED"
+    APP_NAME: str = "REAL_i"
     APP_VERSION: str = "1.0"
 
     FILE_ALLOWED_TYPES: list = ["text/plain", "application/pdf"]
@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     FILE_DEFAULT_CHUNK_SIZE: int = 512000
 
     MONGODB_URL: str
-    MONGODB_DATABASE: str = "raad-rag"
+    MONGODB_DATABASE: str = "reali-db"
 
     GENERATION_BACKEND: str = "OPENAI"
     EMBEDDING_BACKEND: str = "OPENAI"
@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     GENERATION_DAFAULT_TEMPERATURE: Optional[float] = 0.2
 
     VECTOR_DB_BACKEND: str = "QDRANT"
-    VECTOR_DB_PATH: str = "raad_qdrant_db"
+    VECTOR_DB_PATH: str = "reali_qdrant_db"
     VECTOR_DB_DISTANCE_METHOD: Optional[str] = "cosine"
 
     PRIMARY_LANG: str = "en"

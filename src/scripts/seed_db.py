@@ -1,5 +1,5 @@
 """
-Raaed RAG Pipeline — Standalone MongoDB Setup & Verification Script.
+REAL_i RAG Pipeline — Standalone MongoDB Setup & Verification Script.
 
 This script can be run independently to:
   1. Connect to MongoDB (Atlas or local)
@@ -48,7 +48,7 @@ def print_err(text: str):
 async def run_setup(verify_only: bool = False, seed: bool = False):
     settings = get_settings()
 
-    print_header("Raaed MongoDB Setup")
+    print_header("REAL_i MongoDB Setup")
     print(f"  MongoDB URL:  {settings.MONGODB_URL[:40]}...")
     print(f"  Database:     {settings.MONGODB_DATABASE}")
     print()
@@ -133,7 +133,7 @@ async def run_setup(verify_only: bool = False, seed: bool = False):
 
             # Insert a sample chunk
             chunk_result = await chunks_col.insert_one({
-                "chunk_text": "This is a sample chunk for testing the Raaed RAG pipeline.",
+                "chunk_text": "This is a sample chunk for testing the REAL_i RAG pipeline.",
                 "chunk_metadata": {
                     "section_heading": "Introduction",
                     "chunk_index": 0,
@@ -158,7 +158,7 @@ async def run_setup(verify_only: bool = False, seed: bool = False):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Raaed MongoDB Setup Script")
+    parser = argparse.ArgumentParser(description="REAL_i MongoDB Setup Script")
     parser.add_argument("--verify", action="store_true", help="Verify only, don't create")
     parser.add_argument("--seed", action="store_true", help="Insert sample test data")
     args = parser.parse_args()
