@@ -1,6 +1,9 @@
 import os
 import logging
-from crewai import Agent, Task, Crew, Process, LLM
+try:
+    from crewai import Agent, Task, Crew, Process, LLM
+except ImportError:
+    Agent, Task, Crew, Process, LLM = None, None, None, None, object
 from helpers.config import get_settings
 from .prompts import ORCHESTRATOR_SYSTEM_PROMPT, QUIZ_AGENT_SYSTEM_PROMPT
 from .tools import create_rag_tools
