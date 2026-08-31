@@ -1,6 +1,6 @@
-# 🎓 Raaed — Educational Multi-Agent & RAG Platform
+# 🎓 REAL_i — Educational Multi-Agent & RAG Platform
 
-> **رائد (Raaed)** is a production-grade, multi-agent educational assistant platform designed to help university students study course materials.
+> **REAL_i (REAL_i)** is a production-grade, multi-agent educational assistant platform designed to help university students study course materials.
 > Powered by a two-stage **Retrieval-Augmented Generation (RAG)** pipeline, a conversational **AI Study Assistant** agent, an instructor-facing **Admin Agent**, and a **Google Sheets / Webhook-based shared memory** task queue.
 >
 > Developed for the **Digital Pioneers Initiative | AI Learning Assistant v2.0**
@@ -9,7 +9,7 @@
 
 ## 🏗️ System Architecture
 
-Raaed operates as a dual-agent system where instructors can direct the AI Study Assistant's behavior in real-time through an Instructor Admin Agent.
+REAL_i operates as a dual-agent system where instructors can direct the AI Study Assistant's behavior in real-time through an Instructor Admin Agent.
 
 ```mermaid
 sequenceDiagram
@@ -18,17 +18,17 @@ sequenceDiagram
     participant Admin as Admin Agent Platform (FastAPI :8001)
     participant GS as Google Sheets (Shared Memory)
     participant Webhook as Assistant Webhook API (FastAPI :8000)
-    participant DB as MongoDB (raad-rag)
-    participant Raaed as Assistant Agent (CrewAI)
+    participant DB as MongoDB (reali-db)
+    participant REAL_i as Assistant Agent (CrewAI)
 
     Instructor->>Admin: "Focus today with students on Module 5"
     Admin->>GS: Append task row (e.g. T003)
     Admin->>Webhook: HTTP POST Webhook (task payload)
     Webhook->>DB: Save Guideline as Active (project_id)
-    Student->>Raaed: "Hello, what should I study today?"
-    Raaed->>DB: Query active guidelines for project_id
-    DB-->>Raaed: Return active guideline ("Focus on Module 5")
-    Raaed-->>Student: "Hi! The instructor requested we focus on Module 5 today..."
+    Student->>REAL_i: "Hello, what should I study today?"
+    REAL_i->>DB: Query active guidelines for project_id
+    DB-->>REAL_i: Return active guideline ("Focus on Module 5")
+    REAL_i-->>Student: "Hi! The instructor requested we focus on Module 5 today..."
 ```
 
 ---
@@ -36,7 +36,7 @@ sequenceDiagram
 ## 📂 Project Directory Structure
 
 ```
-├── src/                             # 🚀 Raaed Core Assistant API
+├── src/                             # 🚀 REAL_i Core Assistant API
 │   ├── main.py                      #   FastAPI entry point (lifespan manager)
 │   ├── controllers/                 #   Business logic layer (Data, NLP, Process)
 │   ├── routes/                      #   FastAPI route routing schemas
@@ -74,15 +74,15 @@ Follow these steps sequentially to set up and run both servers locally..
 
 You need to set up two `.env` files. 
 
-#### A. Configure Raaed Core API Environment
+#### A. Configure REAL_i Core API Environment
 Create `src/.env` and insert your credentials:
 ```env
-APP_NAME="RAAED"
+APP_NAME="REAL_i"
 APP_VERSION="0.2"
 
 # MongoDB Credentials
 MONGODB_URL="your-mongodb-atlas-url-or-local"
-MONGODB_DATABASE="raad-rag"
+MONGODB_DATABASE="reali-db"
 
 # LLM Providers (OpenRouter)
 GENERATION_BACKEND="OPENAI"
@@ -95,7 +95,7 @@ GENERATION_MODEL_ID="openai/gpt-4o-mini"
 EMBEDDING_MODEL_ID="Alibaba-NLP/gte-multilingual-base"
 EMBEDDING_MODEL_SIZE=768
 VECTOR_DB_BACKEND="QDRANT"
-VECTOR_DB_PATH="raad_qdrant_db"
+VECTOR_DB_PATH="reali_qdrant_db"
 VECTOR_DB_DISTANCE_METHOD="cosine"
 
 # Optimization (Crucial to prevent RAG prompt truncation)
@@ -115,7 +115,7 @@ GOOGLE_SPREADSHEET_ID="your-google-spreadsheet-id"
 GOOGLE_CLIENT_ID="your-google-client-id"
 GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
-# Assistant Webhook URL (pointing to Raaed Core API)
+# Assistant Webhook URL (pointing to REAL_i Core API)
 ASSISTANT_WEBHOOK_URL="http://localhost:8000/api/v1/agent/webhook/task"
 ```
 
@@ -149,7 +149,7 @@ wsl curl -X POST http://127.0.0.1:8000/api/v1/nlp/index/push/testproject1 -H "Co
 ```
 
 ### 6. Testing & E2E Validation
-Raaed features a comprehensive end-to-end (E2E) API test suite to verify health, upload, extraction, vector indexing, semantic search, RAG answers, and agent systems.
+REAL_i features a comprehensive end-to-end (E2E) API test suite to verify health, upload, extraction, vector indexing, semantic search, RAG answers, and agent systems.
 
 To run the automated tests:
 1. Ensure the core FastAPI server is running on port 8000.
@@ -173,7 +173,7 @@ The test suite covers:
 
 To run the full dual-agent system, start both FastAPI servers:
 
-### Start Raaed Core API (Assistant Server)
+### Start REAL_i Core API (Assistant Server)
 Runs on port **8000** by default:
 ```bash
 cd src
@@ -193,7 +193,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8001
 
 ## 📊 RAG Evaluation Framework & Performance
 
-Raaed includes a built-in evaluation framework inside `src/evaluation/` to measure retrieval effectiveness and generation accuracy.
+REAL_i includes a built-in evaluation framework inside `src/evaluation/` to measure retrieval effectiveness and generation accuracy.
 
 ### 1. Retrieval Performance (Vector Search vs BGE Reranker)
 Standard cosine similarity vector search alone compared against vector retrieval + **BGE Cross-Encoder Reranker** (`BAAI/bge-reranker-v2-m3`):
@@ -233,7 +233,7 @@ Evaluating RAG answers against textbook facts and a raw model (`gpt-4o-mini` wit
 
 ## 📡 API Endpoint Reference
 
-### Raaed Core API (Port 8000)
+### REAL_i Core API (Port 8000)
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `POST` | `/api/v1/data/upload/{project_id}` | Upload PDF lecture file |

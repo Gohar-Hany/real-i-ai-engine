@@ -1,6 +1,6 @@
-# 📘 Raaed — Complete System Documentation
+# 📘 REAL_i — Complete System Documentation
 
-> **رائد (Raaed)** — An AI-powered educational assistant platform for university students.  
+> **REAL_i (REAL_i)** — An AI-powered educational assistant platform for university students.  
 > _Digital Pioneers Initiative | AI Learning Assistant v2.0_
 
 ---
@@ -30,7 +30,7 @@
 
 ## 1. Project Overview
 
-**Raaed** is a Retrieval-Augmented Generation (RAG) platform designed to help university students study their course materials more effectively. The system processes uploaded lecture PDFs, extracts and chunks the content semantically, stores it in a vector database, and provides an AI-powered conversational assistant that can answer questions, generate quizzes, and follow instructor guidelines — all grounded in the actual course materials.
+**REAL_i** is a Retrieval-Augmented Generation (RAG) platform designed to help university students study their course materials more effectively. The system processes uploaded lecture PDFs, extracts and chunks the content semantically, stores it in a vector database, and provides an AI-powered conversational assistant that can answer questions, generate quizzes, and follow instructor guidelines — all grounded in the actual course materials.
 
 ### Key Capabilities
 
@@ -40,7 +40,7 @@
 | 🔪 Semantic Chunking | Splits documents into meaningful sections based on Markdown headings |
 | 🔍 Vector Search | Embeds chunks and performs cosine similarity search via Qdrant |
 | 🔁 BGE Reranking | Re-scores retrieved documents with a cross-encoder for precision |
-| 🤖 AI Study Assistant | Conversational agent ("رائد") that answers questions from course materials |
+| 🤖 AI Study Assistant | Conversational agent ("REAL_i") that answers questions from course materials |
 | 📝 Quiz Generator | Sub-agent that generates structured MCQ quizzes from retrieved content |
 | 👨‍🏫 Admin Agent | Instructor-facing agent that creates tasks and steers the assistant via webhooks |
 | 📊 Shared Memory | Google Sheets-based task queue + MongoDB guidelines for inter-agent communication |
@@ -62,7 +62,7 @@ graph TB
         STU[Student]
     end
 
-    subgraph "🧠 Raaed Core Platform (FastAPI :8000)"
+    subgraph "🧠 REAL_i Core Platform (FastAPI :8000)"
         direction TB
         MAIN["main.py<br/>(FastAPI Lifespan)"]
 
@@ -80,7 +80,7 @@ graph TB
         end
 
         subgraph "Agent Module (CrewAI)"
-            ORCH["Orchestrator Agent<br/>(رائد)"]
+            ORCH["Orchestrator Agent<br/>(REAL_i)"]
             QUIZ_A["Quiz Generator<br/>Sub-Agent"]
             SESS[SessionManager]
         end
@@ -136,7 +136,7 @@ graph TB
 
 ## 3. Detailed Component Architecture
 
-### 3.1 Raaed Core Platform Architecture
+### 3.1 REAL_i Core Platform Architecture
 
 ```mermaid
 graph LR
@@ -227,7 +227,7 @@ graph LR
 
     subgraph "External Services"
         GS2["Google Sheets<br/>(Shared Memory)"]
-        WH["Raaed Webhook<br/>POST /api/v1/agent/webhook/task"]
+        WH["REAL_i Webhook<br/>POST /api/v1/agent/webhook/task"]
     end
 
     MAIN_A -->|"POST /task/create"| CREW_A
@@ -391,10 +391,10 @@ sequenceDiagram
     participant ADMIN as Admin Agent API
     participant CREW as CrewAI Admin Crew
     participant GS as Google Sheets
-    participant WH as Raaed Webhook
+    participant WH as REAL_i Webhook
     participant DB as MongoDB Guidelines
     actor Student
-    participant RAAED as Raaed Agent
+    participant REAL_i as REAL_i Agent
 
     Instructor->>ADMIN: POST /task/create<br/>"Focus on Module 5 with 20 MCQs"
 
@@ -417,13 +417,13 @@ sequenceDiagram
 
     Note over DB: Guideline is now ACTIVE<br/>for project "machinelearning"
 
-    Student->>RAAED: POST /chat/machinelearning<br/>"What should I study today?"
-    RAAED->>DB: get_active_guidelines("machinelearning")
-    DB-->>RAAED: [{ description: "Focus on Module 5..." }]
+    Student->>REAL_i: POST /chat/machinelearning<br/>"What should I study today?"
+    REAL_i->>DB: get_active_guidelines("machinelearning")
+    DB-->>REAL_i: [{ description: "Focus on Module 5..." }]
 
-    Note over RAAED: Guidelines injected into<br/>orchestrator task prompt
+    Note over REAL_i: Guidelines injected into<br/>orchestrator task prompt
 
-    RAAED-->>Student: "The instructor asked us to focus<br/>on Module 5: Neural Networks today..."
+    REAL_i-->>Student: "The instructor asked us to focus<br/>on Module 5: Neural Networks today..."
 ```
 
 ---
@@ -503,7 +503,7 @@ Splits cleaned Markdown into semantically coherent chunks based on heading struc
 |---|---|
 | Backend | Qdrant (local persistent storage) |
 | Distance Method | Cosine Similarity |
-| Storage Path | `src/assets/database/raad_qdrant_db/` |
+| Storage Path | `src/assets/database/reali_qdrant_db/` |
 | Collection Naming | `collection_{project_id}` |
 
 ---
@@ -549,7 +549,7 @@ graph LR
 
 The agent system uses **CrewAI** to create intelligent, tool-using agents that sit on top of the RAG pipeline.
 
-#### Orchestrator Agent ("رائد")
+#### Orchestrator Agent ("REAL_i")
 
 | Property | Value |
 |---|---|
@@ -595,7 +595,7 @@ A separate FastAPI service that processes instructor requests using CrewAI.
 1. Instructor sends a natural language request (e.g., "Create a quiz about ML Chapter 3 with 20 MCQs")
 2. CrewAI Admin Crew analyzes intent → extracts parameters → formats structured JSON
 3. Record is written to Google Sheets (Shared Memory)
-4. Webhook notification is sent to the Raaed Assistant
+4. Webhook notification is sent to the REAL_i Assistant
 
 #### Google Sheets Schema ("Shared Memory")
 | Column | Description |
@@ -634,7 +634,7 @@ graph TB
     ADMIN2[Admin Agent] -->|"1. Write record"| GS3
     ADMIN2 -->|"2. Trigger"| WH2
     WH2 -->|"3. Save guideline"| MDB
-    MDB -->|"4. Query on chat"| RAAED2[Raaed Agent]
+    MDB -->|"4. Query on chat"| REAL_i2[REAL_i Agent]
 ```
 
 ---
@@ -830,7 +830,7 @@ Full RAG pipeline: retrieve → rerank → generate answer.
 
 #### `POST /api/v1/agent/chat/{project_id}`
 
-Multi-turn chat with the Raaed Study Assistant.
+Multi-turn chat with the REAL_i Study Assistant.
 
 | Parameter | Type | Location | Description |
 |---|---|---|---|
@@ -942,19 +942,19 @@ Health check for the Admin Agent service.
 
 | Variable | Description | Example |
 |---|---|---|
-| `APP_NAME` | Application name | `RAAED` |
+| `APP_NAME` | Application name | `REAL_i` |
 | `APP_VERSION` | Application version | `0.1` |
 | `OPENAI_API_KEY` | OpenRouter API key | `sk-or-v1-...` |
 | `OPENAI_API_URL` | LLM API base URL | `https://openrouter.ai/api/v1` |
 | `MONGODB_URL` | MongoDB Atlas connection string | `mongodb+srv://...` |
-| `MONGODB_DATABASE` | Database name | `raad-rag` |
+| `MONGODB_DATABASE` | Database name | `reali-db` |
 | `GENERATION_BACKEND` | LLM provider | `OPENAI` |
 | `EMBEDDING_BACKEND` | Embedding provider | `LOCAL` |
 | `GENERATION_MODEL_ID` | Generation model | `openai/gpt-4o-mini` |
 | `EMBEDDING_MODEL_ID` | Embedding model | `Alibaba-NLP/gte-multilingual-base` |
 | `EMBEDDING_MODEL_SIZE` | Embedding dimensions | `768` |
 | `VECTOR_DB_BACKEND` | Vector DB provider | `QDRANT` |
-| `VECTOR_DB_PATH` | Vector DB storage path | `raad_qdrant_db` |
+| `VECTOR_DB_PATH` | Vector DB storage path | `reali_qdrant_db` |
 | `VECTOR_DB_DISTANCE_METHOD` | Similarity metric | `cosine` |
 | `PRIMARY_LANG` | Primary template language | `en` |
 | `INPUT_DAFAULT_MAX_CHARACTERS` | Max input characters | `1024` |
@@ -971,14 +971,14 @@ Health check for the Admin Agent service.
 | `GOOGLE_SPREADSHEET_ID` | Google Sheets spreadsheet ID | `1wMtkgZ...` |
 | `GOOGLE_CLIENT_ID` | OAuth2 client ID | `72549...` |
 | `GOOGLE_CLIENT_SECRET` | OAuth2 client secret | `GOCSPX-...` |
-| `ASSISTANT_WEBHOOK_URL` | Raaed webhook endpoint | `http://localhost:8000/api/v1/agent/webhook/task` |
+| `ASSISTANT_WEBHOOK_URL` | REAL_i webhook endpoint | `http://localhost:8000/api/v1/agent/webhook/task` |
 
 ---
 
 ## 9. Directory Structure
 
 ```
-Raaed-Graduation-Project/
+REAL_i-Graduation-Project/
 │
 ├── src/                                    # 🧠 Core Platform
 │   ├── main.py                             # FastAPI app + lifespan (startup/shutdown)
@@ -1064,7 +1064,7 @@ Raaed-Graduation-Project/
 │   │
 │   └── assets/                             # 📁 Local Storage
 │       ├── files/{project_id}/             # Uploaded files per project
-│       └── database/raad_qdrant_db/        # Qdrant persistent storage
+│       └── database/reali_qdrant_db/        # Qdrant persistent storage
 │
 ├── admin_agent_platform/                   # 👨‍🏫 Admin Agent (Separate Service)
 │   ├── main.py                             # FastAPI app (port 8001)
@@ -1134,7 +1134,7 @@ curl -X POST http://localhost:8000/api/v1/nlp/index/push/ml_course \
   -H "Content-Type: application/json" \
   -d '{"do_reset": 0}'
 
-# 4. Chat with Raaed
+# 4. Chat with REAL_i
 curl -X POST http://localhost:8000/api/v1/agent/chat/ml_course \
   -H "Content-Type: application/json" \
   -d '{"message": "What is gradient descent?"}'
@@ -1147,7 +1147,7 @@ curl -X POST http://localhost:8000/api/v1/agent/quiz/ml_course \
 
 ## 11. RAG Evaluation Framework & Performance Metrics
 
-To ensure the reliability, accuracy, and performance of the Raaed RAG system for the graduation project presentation, a comprehensive evaluation framework is built directly into the codebase. 
+To ensure the reliability, accuracy, and performance of the REAL_i RAG system for the graduation project presentation, a comprehensive evaluation framework is built directly into the codebase. 
 
 ### 11.1 Framework Structure
 
@@ -1218,5 +1218,5 @@ To run the evaluation suite locally:
 
 ---
 
-> _This documentation was generated for the Raaed Graduation Project — Digital Pioneers Initiative._  
+> _This documentation was generated for the REAL_i Graduation Project — Digital Pioneers Initiative._  
 > _Last updated: June 2026_

@@ -1,4 +1,4 @@
-# Project Raaed (رائد): Master's Graduation Presentation Guide
+# Project REAL_i (REAL_i): Master's Graduation Presentation Guide
 
 This guide provides a professional, business-focused structure for your Master's Graduation Project presentation. It balances high-level strategic value with technical depth.
 
@@ -7,7 +7,7 @@ This guide provides a professional, business-focused structure for your Master's
 ## 🏛️ Presentation Structure (10 Slides)
 
 ### Slide 1: The Cover
-*   **Title:** **Raaed (رائد): The Vision-Augmented RAG Pipeline**
+*   **Title:** **REAL_i (REAL_i): The Vision-Augmented RAG Pipeline**
 *   **Subtitle:** Unlocking Enterprise Intelligence from Complex Multilingual Documents
 *   **Key Message:** We aren't just building a chatbot; we are building an intelligent bridge between static document archives and actionable knowledge.
 
@@ -25,9 +25,9 @@ This guide provides a professional, business-focused structure for your Master's
 *   **The Gap:** Most RAG solutions are English-centric. Global organizations (especially in the MENA region) require seamless support for Arabic and English documentation without losing semantic precision.
 *   **The Demand:** A production-grade pipeline that handles technical manuals, research papers, and legal documents with **Zero Data Loss**.
 
-### Slide 4: Introducing Raaed (The Solution)
+### Slide 4: Introducing REAL_i (The Solution)
 *   **Headline:** From Pixels to Precision Knowledge
-*   **Definition:** Raaed is a **Vision-Augmented RAG Pipeline** designed for high-precision retrieval from complex documents.
+*   **Definition:** REAL_i is a **Vision-Augmented RAG Pipeline** designed for high-precision retrieval from complex documents.
 *   **Core Innovations:**
     1.  **Deep Vision Extraction:** We don't just "scrape" text; we "see" the page layout.
     2.  **Semantic Integrity:** We split data by meaning, not by character count.
@@ -73,7 +73,7 @@ This guide provides a professional, business-focused structure for your Master's
 *   **The Impact:** 40% reduction in knowledge retrieval time; 100% elimination of common "blind-spot" hallucinations.
 
 ### Slide 10: The Vision & Conclusion
-*   **Headline:** Raaed: Pioneering Intelligent Retrieval
+*   **Headline:** REAL_i: Pioneering Intelligent Retrieval
 *   **Summary:** We have moved beyond "Search" and into "Precise Understanding."
 *   **Future Roadmap:** Multimodal knowledge bases (Video/Audio) and direct integration with enterprise ERPs.
 
@@ -83,10 +83,10 @@ This guide provides a professional, business-focused structure for your Master's
 
 *Use these talking points to sound like a 10+ year veteran during your presentation:*
 
-1.  **On the Problem:** *"Most companies think RAG is a solved problem. It's not. The 'last mile' of RAG is where it fails—complex PDFs, mixed languages, and charts. Raaed solves this 'last mile' by treating the document as a visual entity first."*
+1.  **On the Problem:** *"Most companies think RAG is a solved problem. It's not. The 'last mile' of RAG is where it fails—complex PDFs, mixed languages, and charts. REAL_i solves this 'last mile' by treating the document as a visual entity first."*
 2.  **On the Solution:** *"We don't just use embeddings; we use a Two-Stage Retrieval architecture. Think of it like this: Vector search is the wide-angle lens, and the Reranker is the microscope. Together, they give us surgical precision."*
 3.  **On Multilingualism:** *"English-only models lose the semantic nuance of Arabic technical terms. By using a GTE-Multilingual backbone, we ensure that the semantic meaning is preserved across borders, making this a truly global enterprise solution."*
-4.  **On Complexity:** *"We've implemented structural semantic chunking. Why? Because a paragraph is only as good as the context it sits in. If you break a logical block, you break the AI's ability to reason. Raaed preserves that reasoning chain."*
+4.  **On Complexity:** *"We've implemented structural semantic chunking. Why? Because a paragraph is only as good as the context it sits in. If you break a logical block, you break the AI's ability to reason. REAL_i preserves that reasoning chain."*
 
 ---
 
@@ -98,4 +98,4 @@ This guide provides a professional, business-focused structure for your Master's
 
 ---
 
-*This guide was prepared by Gemini CLI based on a deep audit of the Raaed codebase and technical documentation.*
+*This guide was prepared by Gemini CLI based on a deep audit of the REAL_i codebase and technical documentation.*

@@ -1,0 +1,518 @@
+{
+  "report_title": "Raaed RAG Pipeline — E2E API Test Report",
+  "generated_at": "2026-06-16T11:57:56.871608+00:00",
+  "base_url": "http://localhost:8000",
+  "project_id": "testproject1",
+  "summary": {
+    "total_tests": 28,
+    "passed": 28,
+    "failed": 0,
+    "pass_rate_pct": 100.0
+  },
+  "issues": [],
+  "test_results": [
+    {
+      "test_name": "1.1 Health Check",
+      "endpoint": "/api/v1/",
+      "method": "GET",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 223.15,
+      "response_body": {
+        "app_name": "RAAED",
+        "app_version": "0.1",
+        "services": {
+          "mongodb": "online",
+          "qdrant": "online",
+          "openai": "online"
+        },
+        "stats": {
+          "projects_count": 4,
+          "documents_count": 3,
+          "guidelines_count": 1
+        }
+      },
+      "error": null,
+      "notes": "app_name=RAAED, version=0.1",
+      "timestamp": "2026-06-16T11:57:30.165604+00:00"
+    },
+    {
+      "test_name": "1.2 Invalid Endpoint (404)",
+      "endpoint": "/api/v1/nonexistent",
+      "method": "GET",
+      "status_code": 404,
+      "expected_status": 404,
+      "passed": true,
+      "response_time_ms": 2.82,
+      "response_body": null,
+      "error": null,
+      "notes": "Expecting 404 for unknown route",
+      "timestamp": "2026-06-16T11:57:30.168535+00:00"
+    },
+    {
+      "test_name": "1.3 Root Path",
+      "endpoint": "/",
+      "method": "GET",
+      "status_code": 404,
+      "expected_status": 404,
+      "passed": true,
+      "response_time_ms": 1.99,
+      "response_body": null,
+      "error": null,
+      "notes": "Root path should return 404 (no handler)",
+      "timestamp": "2026-06-16T11:57:30.170605+00:00"
+    },
+    {
+      "test_name": "2.1 Upload Valid TXT File",
+      "endpoint": "/api/v1/data/upload/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 263.07,
+      "response_body": {
+        "signal": "file_upload_success",
+        "file_id": "6a313a2a2115543825a667dc",
+        "asset_name": "6ileqzi4bov8_test_document.txt"
+      },
+      "error": null,
+      "notes": "file_id=6a313a2a2115543825a667dc",
+      "timestamp": "2026-06-16T11:57:30.433839+00:00"
+    },
+    {
+      "test_name": "2.2 Upload Unsupported File Type",
+      "endpoint": "/api/v1/data/upload/testproject1",
+      "method": "POST",
+      "status_code": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_time_ms": 144.11,
+      "response_body": {
+        "signal": "file_type_not_supported"
+      },
+      "error": null,
+      "notes": null,
+      "timestamp": "2026-06-16T11:57:30.578081+00:00"
+    },
+    {
+      "test_name": "2.3 Upload Without File (422)",
+      "endpoint": "/api/v1/data/upload/testproject1",
+      "method": "POST",
+      "status_code": 422,
+      "expected_status": 422,
+      "passed": true,
+      "response_time_ms": 8.22,
+      "response_body": null,
+      "error": null,
+      "notes": "Missing required 'file' field should return 422",
+      "timestamp": "2026-06-16T11:57:30.586340+00:00"
+    },
+    {
+      "test_name": "2.4 Upload with Invalid project_id",
+      "endpoint": "/api/v1/data/upload/invalid-project!",
+      "method": "POST",
+      "status_code": 500,
+      "expected_status": 500,
+      "passed": true,
+      "response_time_ms": 125.04,
+      "response_body": {},
+      "error": "Server returned 500 for invalid project_id",
+      "notes": "Non-alphanumeric project_id — status=500",
+      "timestamp": "2026-06-16T11:57:30.711417+00:00"
+    },
+    {
+      "test_name": "3.1 Process All Project Files",
+      "endpoint": "/api/v1/data/process/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 539.78,
+      "response_body": {
+        "signal": "processing_success",
+        "inserted_chunks": 3,
+        "processed_files": 3
+      },
+      "error": null,
+      "notes": "chunks=3, files=3",
+      "timestamp": "2026-06-16T11:57:31.251283+00:00"
+    },
+    {
+      "test_name": "3.2 Process Empty Project (No Files)",
+      "endpoint": "/api/v1/data/process/emptyproject999",
+      "method": "POST",
+      "status_code": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_time_ms": 234.71,
+      "response_body": {
+        "signal": "not_found_files"
+      },
+      "error": null,
+      "notes": "Should return 400 with not_found_files signal",
+      "timestamp": "2026-06-16T11:57:31.486088+00:00"
+    },
+    {
+      "test_name": "3.3 Process with Invalid file_id",
+      "endpoint": "/api/v1/data/process/testproject1",
+      "method": "POST",
+      "status_code": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_time_ms": 222.25,
+      "response_body": {
+        "signal": "no_file_found_with_this_id"
+      },
+      "error": null,
+      "notes": "Non-existent file_id should return 400",
+      "timestamp": "2026-06-16T11:57:31.708421+00:00"
+    },
+    {
+      "test_name": "3.4 Process with Empty Body (Defaults)",
+      "endpoint": "/api/v1/data/process/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 487.19,
+      "response_body": {
+        "signal": "processing_success",
+        "inserted_chunks": 3,
+        "processed_files": 3
+      },
+      "error": null,
+      "notes": "Empty body should use defaults (chunk_size=100, overlap=20, do_reset=0)",
+      "timestamp": "2026-06-16T11:57:32.195738+00:00"
+    },
+    {
+      "test_name": "4.1 Push to Vector DB",
+      "endpoint": "/api/v1/nlp/index/push/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 2244.75,
+      "response_body": {
+        "signal": "insert_into_vectordb_success",
+        "inserted_items_count": 6
+      },
+      "error": null,
+      "notes": "indexed=6 items",
+      "timestamp": "2026-06-16T11:57:34.440615+00:00"
+    },
+    {
+      "test_name": "4.2 Get Vector DB Collection Info",
+      "endpoint": "/api/v1/nlp/index/info/testproject1",
+      "method": "GET",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 120.01,
+      "response_body": {
+        "signal": "vectordb_collection_retrieved",
+        "collection_info": {
+          "status": "green",
+          "optimizer_status": "ok",
+          "warnings": null,
+          "indexed_vectors_count": 0,
+          "points_count": 6,
+          "segments_count": 1,
+          "config": {
+            "params": {
+              "vectors": {
+                "size": 768,
+                "distance": "Cosine",
+                "hnsw_config": null,
+                "quantization_config": null,
+                "on_disk": null,
+                "datatype": null,
+                "multivector_config": null
+              },
+              "shard_number": null,
+              "sharding_method": null,
+              "replication_factor": null,
+              "write_consistency_factor": null,
+              "read_fan_out_factor": null,
+              "read_fan_out_delay_ms": null,
+              "on_disk_payload": null,
+              "sparse_vectors": null
+            },
+            "hnsw_config": {
+              "m": 16,
+              "ef_construct": 100,
+              "full_scan_threshold": 10000,
+              "max_indexing_threads": 0,
+              "on_disk": null,
+              "payload_m": null,
+              "inline_storage": null
+            },
+            "optimizer_config": {
+              "deleted_threshold": 0.2,
+              "vacuum_min_vector_number": 1000,
+              "default_segment_number": 0,
+              "max_segment_size": null,
+              "memmap_threshold": null,
+              "indexing_threshold": 20000,
+              "flush_interval_sec": 5,
+              "max_optimization_threads": 1,
+              "prevent_unoptimized": null
+            },
+            "wal_config": {
+              "wal_capacity_mb": 32,
+              "wal_segments_ahead": 0,
+              "wal_retain_closed": 1
+            },
+            "quantization_config": null,
+            "strict_mode_config": null,
+            "metadata": null
+          },
+          "payload_schema": {},
+          "update_queue": null
+        }
+      },
+      "error": null,
+      "notes": "collection_info={'status': 'green', 'optimizer_status': 'ok', 'warnings': None, 'indexed_vectors_count': 0, 'points_count': 6, 'segments_count': 1, 'config': {'params': {'vectors': {'size': 768, 'distance': 'Cosine', 'hnsw_config': None, 'quantization_config': None, 'on_disk': None, 'datatype': None, 'multivector_config': None}, 'shard_number': None, 'sharding_method': None, 'replication_factor': None, 'write_consistency_factor': None, 'read_fan_out_factor': None, 'read_fan_out_delay_ms': None, 'on_disk_payload': None, 'sparse_vectors': None}, 'hnsw_config': {'m': 16, 'ef_construct': 100, 'full_scan_threshold': 10000, 'max_indexing_threads': 0, 'on_disk': None, 'payload_m': None, 'inline_storage': None}, 'optimizer_config': {'deleted_threshold': 0.2, 'vacuum_min_vector_number': 1000, 'default_segment_number': 0, 'max_segment_size': None, 'memmap_threshold': None, 'indexing_threshold': 20000, 'flush_interval_sec': 5, 'max_optimization_threads': 1, 'prevent_unoptimized': None}, 'wal_config': {'wal_capacity_mb': 32, 'wal_segments_ahead': 0, 'wal_retain_closed': 1}, 'quantization_config': None, 'strict_mode_config': None, 'metadata': None}, 'payload_schema': {}, 'update_queue': None}",
+      "timestamp": "2026-06-16T11:57:34.560701+00:00"
+    },
+    {
+      "test_name": "4.3 Push to Vector DB (Append)",
+      "endpoint": "/api/v1/nlp/index/push/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 2059.46,
+      "response_body": {
+        "signal": "insert_into_vectordb_success",
+        "inserted_items_count": 6
+      },
+      "error": null,
+      "notes": "Append mode (do_reset=0)",
+      "timestamp": "2026-06-16T11:57:36.620255+00:00"
+    },
+    {
+      "test_name": "5.1 Basic Semantic Search",
+      "endpoint": "/api/v1/nlp/index/search/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 2628.72,
+      "response_body": {
+        "signal": "vectordb_search_success",
+        "results_count": 5
+      },
+      "error": null,
+      "notes": "Found 5 results",
+      "timestamp": "2026-06-16T11:57:39.249129+00:00"
+    },
+    {
+      "test_name": "5.2 Search with limit=1",
+      "endpoint": "/api/v1/nlp/index/search/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 1085.05,
+      "response_body": null,
+      "error": null,
+      "notes": "Returned 1 result(s), expected ≤1",
+      "timestamp": "2026-06-16T11:57:40.334288+00:00"
+    },
+    {
+      "test_name": "5.3 Search with Empty Text",
+      "endpoint": "/api/v1/nlp/index/search/testproject1",
+      "method": "POST",
+      "status_code": 422,
+      "expected_status": 422,
+      "passed": true,
+      "response_time_ms": 2.03,
+      "response_body": null,
+      "error": null,
+      "notes": "Empty text — status=422 (expected 422 validation error)",
+      "timestamp": "2026-06-16T11:57:40.336385+00:00"
+    },
+    {
+      "test_name": "5.4 Search Non-Indexed Project",
+      "endpoint": "/api/v1/nlp/index/search/nonexistentproject",
+      "method": "POST",
+      "status_code": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_time_ms": 148.37,
+      "response_body": {
+        "signal": "vectordb_search_error"
+      },
+      "error": null,
+      "notes": "Search on non-indexed project — status=400",
+      "timestamp": "2026-06-16T11:57:40.484810+00:00"
+    },
+    {
+      "test_name": "6.1 RAG Answer (English)",
+      "endpoint": "/api/v1/nlp/index/answer/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 4126.21,
+      "response_body": {
+        "signal": "rag_answer_success",
+        "answer_preview": "I'm sorry, but I cannot provide a response based on the document you provided as it does not contain"
+      },
+      "error": null,
+      "notes": "Full RAG pipeline: retrieval + generation",
+      "timestamp": "2026-06-16T11:57:44.611104+00:00"
+    },
+    {
+      "test_name": "6.2 RAG Answer (More Context)",
+      "endpoint": "/api/v1/nlp/index/answer/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 3559.94,
+      "response_body": null,
+      "error": null,
+      "notes": "limit=10 for broader context — status=200",
+      "timestamp": "2026-06-16T11:57:48.171165+00:00"
+    },
+    {
+      "test_name": "6.3 RAG Answer Non-Indexed Project",
+      "endpoint": "/api/v1/nlp/index/answer/nonexistentproject",
+      "method": "POST",
+      "status_code": 400,
+      "expected_status": 400,
+      "passed": true,
+      "response_time_ms": 166.77,
+      "response_body": {
+        "signal": "rag_answer_error"
+      },
+      "error": null,
+      "notes": "RAG on non-indexed project — status=400",
+      "timestamp": "2026-06-16T11:57:48.338113+00:00"
+    },
+    {
+      "test_name": "7.1 Register Guideline Webhook",
+      "endpoint": "/api/v1/agent/webhook/task",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 256.59,
+      "response_body": {
+        "status": "success",
+        "message": "Guideline successfully registered for project: testproject1",
+        "project_id": "testproject1",
+        "task_id": "test_quiz_task_123"
+      },
+      "error": null,
+      "notes": "Saves instructor guideline to database",
+      "timestamp": "2026-06-16T11:57:48.594771+00:00"
+    },
+    {
+      "test_name": "7.2 Get Active Guidelines",
+      "endpoint": "/api/v1/agent/guidelines/active/testproject1",
+      "method": "GET",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 380.94,
+      "response_body": {
+        "guidelines_count": 2
+      },
+      "error": null,
+      "notes": "Retrieves guidelines registered for the project",
+      "timestamp": "2026-06-16T11:57:48.975784+00:00"
+    },
+    {
+      "test_name": "7.3 Chat with Study Assistant",
+      "endpoint": "/api/v1/agent/chat/testproject1",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 7693.27,
+      "response_body": {
+        "session_id": "23562270-b507-4ada-8e1c-4e6ed004ab60",
+        "response_preview": "I'm sorry, but it seems that the course materials do not cover the topic of variables and functions "
+      },
+      "error": null,
+      "notes": "Tests CrewAI Orchestrator chat workflow",
+      "timestamp": "2026-06-16T11:57:56.669116+00:00"
+    },
+    {
+      "test_name": "7.4 Submit Quiz Result",
+      "endpoint": "/api/v1/agent/quizzes/results",
+      "method": "POST",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 54.9,
+      "response_body": {
+        "status": "success",
+        "message": "Quiz result saved"
+      },
+      "error": null,
+      "notes": "Saves student's quiz answers and score",
+      "timestamp": "2026-06-16T11:57:56.724077+00:00"
+    },
+    {
+      "test_name": "7.5 Get Completed Quizzes",
+      "endpoint": "/api/v1/agent/quizzes/completed/test_student_001",
+      "method": "GET",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 49.67,
+      "response_body": {
+        "completed_tasks": [
+          {
+            "task_id": "test_quiz_task_123",
+            "score": 4,
+            "total": 5,
+            "answers": {
+              "Q1": "A",
+              "Q2": "B",
+              "Q3": "C",
+              "Q4": "D"
+            }
+          }
+        ]
+      },
+      "error": null,
+      "notes": "Retrieves completed quiz list for student",
+      "timestamp": "2026-06-16T11:57:56.773837+00:00"
+    },
+    {
+      "test_name": "7.6 Get Assigned Quizzes",
+      "endpoint": "/api/v1/agent/quizzes/testproject1",
+      "method": "GET",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 48.85,
+      "response_body": {
+        "quizzes_count": 5
+      },
+      "error": null,
+      "notes": "Retrieves list of generated quizzes for the course",
+      "timestamp": "2026-06-16T11:57:56.822777+00:00"
+    },
+    {
+      "test_name": "7.7 Clear Session History",
+      "endpoint": "/api/v1/agent/session/test_session_999",
+      "method": "DELETE",
+      "status_code": 200,
+      "expected_status": 200,
+      "passed": true,
+      "response_time_ms": 48.56,
+      "response_body": {
+        "status": "not_found"
+      },
+      "error": null,
+      "notes": "Deletes session memory from database",
+      "timestamp": "2026-06-16T11:57:56.871392+00:00"
+    }
+  ]
+}

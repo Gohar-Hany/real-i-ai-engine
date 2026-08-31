@@ -1,12 +1,12 @@
-# دليل رفع مشروع رائد (Raaed) على سحابة مايكروسوفت آژور (Microsoft Azure Deployment Guide)
+# دليل رفع مشروع REAL_i (REAL_i) على سحابة مايكروسوفت آژور (Microsoft Azure Deployment Guide)
 
-بصفتي خبيرًا عالميًا في بنية وحلول مايكروسوفت آژور (Azure Solutions Architect)، قمت بإعداد هذا الدليل الشامل والمفصل خطوة بخطوة لمساعدتك في رفع تطبيق **Raaed** (الخاص بمشروع التخرج) بالكامل على السحابة ليعمل بكفاءة عالية وبأقل تكلفة ممكنة، مع ضمان استقرار نماذج الذكاء الاصطناعي ومعالجة النصوص.
+بصفتي خبيرًا عالميًا في بنية وحلول مايكروسوفت آژور (Azure Solutions Architect)، قمت بإعداد هذا الدليل الشامل والمفصل خطوة بخطوة لمساعدتك في رفع تطبيق **REAL_i** (الخاص بمشروع التخرج) بالكامل على السحابة ليعمل بكفاءة عالية وبأقل تكلفة ممكنة، مع ضمان استقرار نماذج الذكاء الاصطناعي ومعالجة النصوص.
 
 ---
 
 ## 1. نظرة عامة على البنية البرمجية السحابية (Cloud Architecture)
 
-يتكون مشروع رائد من المكونات التالية، وهنا نوضح كيف سيتم استضافتها على Azure:
+يتكون مشروع REAL_i من المكونات التالية، وهنا نوضح كيف سيتم استضافتها على Azure:
 
 ```mermaid
 graph TD
@@ -34,7 +34,7 @@ graph TD
 
 ## 2. الخطوة 1: تهيئة الحاوية (Containerization) محليًا
 
-لقد قمنا بإنشاء ملف [Dockerfile](file:///d:/Raaed/Dockerfile) وملف [.dockerignore](file:///d:/Raaed/.dockerignore) في جذر المشروع لتجهيز الخلفية. 
+لقد قمنا بإنشاء ملف [Dockerfile](file:///d:/REAL_i/Dockerfile) وملف [.dockerignore](file:///d:/REAL_i/.dockerignore) في جذر المشروع لتجهيز الخلفية. 
 
 ### مميزات الـ Dockerfile المرفق:
 * يستخدم نسخة مخففة من بايثون (`python:3.10-slim`).
@@ -43,7 +43,7 @@ graph TD
 * **تحميل مسبق للنماذج (Critical Optimization):** يقوم بتحميل نموذج التضمين `gte-multilingual-base` ونموذج إعادة الترتيب `bge-reranker-v2-m3` أثناء بناء الصورة (Build Phase). هذا يمنع آژور من محاولة تحميل جيجابايتات من البيانات عند إقلاع الحاوية لأول مرة مما يؤدي لفشل التشغيل بسبب انتهاء الوقت المحدد (Timeout).
 
 ### لتجربة بناء الصورة وتشغيلها محليًا للتأكد:
-1. افتح Terminal في جذر المشروع `d:\Raaed`.
+1. افتح Terminal في جذر المشروع `d:\REAL_i`.
 2. قم ببناء الصورة:
    ```bash
    docker build -t raaed-backend .
@@ -161,12 +161,12 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 | `WEBSITES_PORT` | `5000` | يخبر آژور أن الحاوية تستمع على منفذ 5000 ويقوم بتوجيه طلبات الويب الخارجية إليه تلقائيًا. |
 | `WEBSITES_CONTAINER_START_TIME_LIMIT` | `1800` | مهم جدًا! يرفع وقت مهلة إقلاع الحاوية إلى 30 دقيقة، ليتيح للخادم تحميل النماذج الكبيرة من Hugging Face وفحص المجلدات في المرة الأولى دون أن يفشل الإقلاع. |
 | `MONGODB_URL` | `mongodb+srv://goharhany9_db_user:z15599We2k3SULur@cluster0...` | رابط قاعدة بيانات أطلس المستضافة سحابيًا. |
-| `MONGODB_DATABASE` | `raad-rag` | اسم قاعدة البيانات. |
+| `MONGODB_DATABASE` | `reali-db` | اسم قاعدة البيانات. |
 | `OPENAI_API_KEY` | `sk-or-v1-e97ed021412bb92163485...` | مفتاح OpenRouter أو OpenAI الخاص بك. |
 | `OPENAI_API_URL` | `https://openrouter.ai/api/v1` | رابط واجهة OpenRouter البرمجية. |
 | `GENERATION_MODEL_ID` | `openai/gpt-4o-mini` | نوع النموذج المستخدم للمحادثات والاختبارات. |
 | `VECTOR_DB_BACKEND` | `QDRANT` | نوع قاعدة الفيكتور. |
-| `VECTOR_DB_PATH` | `raad_qdrant_db` | اسم المجلد الذي سينشأ بداخل `/app/src/assets/database/`. |
+| `VECTOR_DB_PATH` | `reali_qdrant_db` | اسم المجلد الذي سينشأ بداخل `/app/src/assets/database/`. |
 | `VECTOR_DB_DISTANCE_METHOD` | `cosine` | طريقة حساب المسافة للفيكتور. |
 | `GOOGLE_SPREADSHEET_ID` | `1wMtkgZgVr2vIZvcxBRIePRbKF...` | معرف ورقة Google لعميل الأدمين. |
 | `GOOGLE_CLIENT_ID` | `725493678609-93vhjrdv2pt59p...` | حساب OAuth Google Client ID. |
@@ -182,10 +182,10 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 سنقوم باستخدام **Azure Static Web Apps (SWA)** لرفع الواجهة مباشرة عبر GitHub، وهي الطريقة الأسرع والمجانية بالكامل.
 
 ### أ. دفع الكود إلى مستودع GitHub
-تأكد من أن الكود بالكامل مرفوع على مستودع GitHub الخاص بك: `Gohar-Hany/Raaed-Graduation-Project`.
+تأكد من أن الكود بالكامل مرفوع على مستودع GitHub الخاص بك: `Gohar-Hany/REAL_i-Graduation-Project`.
 
 ### ب. تهيئة رابط الـ API في الواجهة
-عند بناء الواجهة في آژور، ستبحث عن رابط الخلفية. لقد قمنا بتعديل ملف [api.js](file:///d:/Raaed/frontend/src/services/api.js) ليقبل متغير البيئة `VITE_API_URL`.
+عند بناء الواجهة في آژور، ستبحث عن رابط الخلفية. لقد قمنا بتعديل ملف [api.js](file:///d:/REAL_i/frontend/src/services/api.js) ليقبل متغير البيئة `VITE_API_URL`.
 
 ### ج. إنشاء Static Web App في Azure:
 1. في بوابة Azure، ابحث عن **Static Web Apps** واضغط **Create**.
@@ -197,7 +197,7 @@ docker push raaedregistry.azurecr.io/raaed-backend:v1
 3. اضغط على **Sign in with GitHub** وقم بتسجيل الدخول وتفويض آژور.
 4. اختر بيانات المستودع الخاص بك:
    * **Organization:** حسابك.
-   * **Repository:** `Raaed-Graduation-Project`.
+   * **Repository:** `REAL_i-Graduation-Project`.
    * **Branch:** فرعك الرئيسي (مثال: `main` أو `master`).
 5. في قسم **Build Details** (هام جدًا لتطبيق React Vite):
    * **Build Presets:** اختر **Vite**.
