@@ -117,8 +117,10 @@ async def chat_with_agent(request: Request, project_id: str, chat_request: ChatR
         )
         active_guidelines = await guideline_model.get_active_guidelines(project_id)
         
-        # 5. Run agent chat
-        response_text = run_agent_chat(
+        # 5. Run agent chat asynchronously without blocking event loop
+        from fastapi.concurrency import run_in_threadpool
+        response_text = await run_in_threadpool(
+            run_agent_chat,
             session_id=session_id,
             project_id=project_id,
             user_message=chat_request.message,
