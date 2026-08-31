@@ -160,17 +160,17 @@ docker push realiregistry.azurecr.io/reali-backend:v1
 | :--- | :--- | :--- |
 | `WEBSITES_PORT` | `5000` | يخبر آژور أن الحاوية تستمع على منفذ 5000 ويقوم بتوجيه طلبات الويب الخارجية إليه تلقائيًا. |
 | `WEBSITES_CONTAINER_START_TIME_LIMIT` | `1800` | مهم جدًا! يرفع وقت مهلة إقلاع الحاوية إلى 30 دقيقة، ليتيح للخادم تحميل النماذج الكبيرة من Hugging Face وفحص المجلدات في المرة الأولى دون أن يفشل الإقلاع. |
-| `MONGODB_URL` | `mongodb+srv://goharhany9_db_user:z15599We2k3SULur@cluster0...` | رابط قاعدة بيانات أطلس المستضافة سحابيًا. |
+| `MONGODB_URL` | `mongodb+srv://<username>:<password>@cluster0.mongodb.net/?retryWrites=true&w=majority` | رابط قاعدة بيانات أطلس المستضافة سحابيًا. |
 | `MONGODB_DATABASE` | `reali-db` | اسم قاعدة البيانات. |
-| `OPENAI_API_KEY` | `sk-or-v1-e97ed021412bb92163485...` | مفتاح OpenRouter أو OpenAI الخاص بك. |
+| `OPENAI_API_KEY` | `sk-or-v1-xxxxxxxxxxxxxxxxxxxx` | مفتاح OpenRouter أو OpenAI الخاص بك. |
 | `OPENAI_API_URL` | `https://openrouter.ai/api/v1` | رابط واجهة OpenRouter البرمجية. |
 | `GENERATION_MODEL_ID` | `openai/gpt-4o-mini` | نوع النموذج المستخدم للمحادثات والاختبارات. |
 | `VECTOR_DB_BACKEND` | `QDRANT` | نوع قاعدة الفيكتور. |
 | `VECTOR_DB_PATH` | `reali_qdrant_db` | اسم المجلد الذي سينشأ بداخل `/app/src/assets/database/`. |
 | `VECTOR_DB_DISTANCE_METHOD` | `cosine` | طريقة حساب المسافة للفيكتور. |
-| `GOOGLE_SPREADSHEET_ID` | `1wMtkgZgVr2vIZvcxBRIePRbKF...` | معرف ورقة Google لعميل الأدمين. |
-| `GOOGLE_CLIENT_ID` | `725493678609-93vhjrdv2pt59p...` | حساب OAuth Google Client ID. |
-| `GOOGLE_CLIENT_SECRET` | `GOCSPX-0wrra70CQ2wiQ5-joh...` | حساب OAuth Google Client Secret. |
+| `GOOGLE_SPREADSHEET_ID` | `<YOUR_SPREADSHEET_ID>` | معرف ورقة Google لعميل الأدمين. |
+| `GOOGLE_CLIENT_ID` | `<YOUR_GOOGLE_CLIENT_ID>` | حساب OAuth Google Client ID. |
+| `GOOGLE_CLIENT_SECRET` | `<YOUR_GOOGLE_CLIENT_SECRET>` | حساب OAuth Google Client Secret. |
 | `ASSISTANT_WEBHOOK_URL` | `https://reali-api.azurewebsites.net/api/v1/agent/webhook/task` | **مهم جدًا:** استبدل localhost برابط السيرفر الجديد على Azure لكي تتمكن webhook الخاصة بالـ Task من إرسال التنبيهات للخلفية مباشرة سحابيًا. |
 
 *اضغط على **Save** في الأعلى ثم تأكيد الإجراء لتطبيق المتغيرات وإعادة التشغيل.*

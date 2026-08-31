@@ -227,7 +227,6 @@ async def delete_guideline(request: Request, task_id: str):
 
 SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "your-super-secret-jwt-key")
 ALGORITHM = "HS256"
-SUPER_ADMIN_EMAIL = "goharhany@gmail.com"
 
 
 async def get_admin_user(request: Request):
@@ -240,7 +239,7 @@ async def get_admin_user(request: Request):
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("sub")
         role = payload.get("role")
-        if not user_id or role != "admin":
+        if not user_id or role not in ("superadmin", "admin"):
             raise HTTPException(status_code=403, detail="Admin access required")
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
@@ -262,20 +261,20 @@ async def list_users(request: Request):
 
 @admin_router.put("/users/{user_id}/role")
 async def update_user_role(request: Request, user_id: str):
-    """Change a user's role. Only the super admin (goharhany@gmail.com) can do this."""
+    """Change a user's role. Only a superadmin can perform this action."""
     admin_user = await get_admin_user(request)
-    if admin_user.get("email") != SUPER_ADMIN_EMAIL:
-        raise HTTPException(status_code=403, detail="Only the super admin can change roles")
+    if admin_user.get("role") != "superadmin":
+        raise HTTPException(status_code=403, detail="Super Admin privileges required to change roles")
 
     body = await request.json()
     new_role = body.get("role")
-    if new_role not in ("admin", "student"):
-        raise HTTPException(status_code=400, detail="Role must be 'admin' or 'student'")
+    if new_role not in ("superadmin", "admin", "instructor", "student"):
+        raise HTTPException(status_code=400, detail="Role must be 'superadmin', 'admin', 'instructor', or 'student'")
 
     # Prevent super admin from demoting themselves
     admin_id = str(admin_user.get("_id", admin_user.get("id")))
     if user_id == admin_id:
-        raise HTTPException(status_code=400, detail="Cannot change your own role")
+        raise HTTPException(status_code=400, detail="Cannot change your own role to prevent lockout")
 
     user_model = await UserModel.create_instance(request.app.db_client)
     success = await user_model.update_user_role(user_id, new_role)
