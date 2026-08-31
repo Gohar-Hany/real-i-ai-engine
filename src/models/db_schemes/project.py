@@ -8,9 +8,9 @@ class Project(BaseModel):
 
     @validator('project_id')
     def validate_project_id(cls, value):
-        if not value.isalnum():
-            raise ValueError('project_id must be alphanumeric')
-        
+        import re
+        if not re.match(r'^[a-zA-Z0-9_\-]+$', value):
+            raise ValueError('project_id must contain only alphanumeric characters, hyphens, and underscores')
         return value
 
     class Config:
