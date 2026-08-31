@@ -1,0 +1,782 @@
+{
+	"info": {
+		"_postman_id": "raaed-graduation-project-api",
+		"name": "Raaed Graduation Project API",
+		"description": "Complete API collection for the Raaed RAG PDF Extraction & Retrieval Pipeline.\n\n## Workflow:\n1. **Health Check** — Verify the server is running\n2. **Upload PDF** — Upload a PDF file to a project\n3. **Process PDF** — Extract, chunk, and store content\n4. **Push to Vector DB** — Index chunks into ChromaDB/Qdrant\n5. **Search** — Semantic search with reranking\n6. **RAG Answer** — Get AI-generated answers from your documents\n\n## Setup:\n- Set `base_url` variable (default: http://localhost:5000)\n- Set `project_id` variable to your project name",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "project_id",
+			"value": "testproject1",
+			"type": "string"
+		},
+		{
+			"key": "file_id",
+			"value": "",
+			"type": "string",
+			"description": "Auto-set after upload"
+		}
+	],
+	"item": [
+		{
+			"name": "🏥 Health & Info",
+			"description": "Server health check and basic info endpoints",
+			"item": [
+				{
+					"name": "Welcome / Health Check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Server is running', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response has app info', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData).to.have.property('app_name');",
+									"    pm.expect(jsonData).to.have.property('app_version');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", ""]
+						},
+						"description": "Returns the application name and version. Use this to verify the server is running."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"app_name\": \"Raaed\",\n    \"app_version\": \"0.1.0\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "📄 Data Management",
+			"description": "File upload and PDF processing endpoints",
+			"item": [
+				{
+					"name": "Upload PDF File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('File uploaded successfully', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response has file_id', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('file_upload_success');",
+									"    pm.expect(jsonData).to.have.property('file_id');",
+									"});",
+									"",
+									"// Auto-save file_id for later use",
+									"var jsonData = pm.response.json();",
+									"if (jsonData.file_id) {",
+									"    pm.collectionVariables.set('file_id', jsonData.file_id);",
+									"    console.log('Saved file_id: ' + jsonData.file_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "",
+									"description": "Select a PDF file to upload"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/upload/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "upload", "{{project_id}}"]
+						},
+						"description": "Upload a PDF file to the specified project. The file will be stored and an asset record will be created in MongoDB.\n\n**Note:** Select a PDF file in the Body > form-data > file field."
+					},
+					"response": [
+						{
+							"name": "Upload Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"file_upload_success\",\n    \"file_id\": \"60f7b1234567890abcdef123\"\n}"
+						},
+						{
+							"name": "Invalid File",
+							"status": "Bad Request",
+							"code": 400,
+							"body": "{\n    \"signal\": \"file_type_not_supported\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Process All Project Files",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Processing completed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Chunks were inserted', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('processing_success');",
+									"    pm.expect(jsonData.inserted_chunks).to.be.above(0);",
+									"    console.log('Inserted ' + jsonData.inserted_chunks + ' chunks from ' + jsonData.processed_files + ' files');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"chunk_size\": 100,\n    \"overlap_size\": 20,\n    \"do_reset\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/process/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "process", "{{project_id}}"]
+						},
+						"description": "Process ALL uploaded PDF files in the project. Extracts text, chunks it semantically, and stores chunks in MongoDB.\n\n**Parameters:**\n- `chunk_size` (default: 100) — Max tokens per chunk\n- `overlap_size` (default: 20) — Token overlap between chunks\n- `do_reset` (0 or 1) — If 1, deletes existing chunks before processing"
+					},
+					"response": [
+						{
+							"name": "Processing Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"processing_success\",\n    \"inserted_chunks\": 42,\n    \"processed_files\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Process Specific File",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Processing completed', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Chunks were inserted', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('processing_success');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"file_id\": \"{{file_id}}\",\n    \"chunk_size\": 100,\n    \"overlap_size\": 20,\n    \"do_reset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/process/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "process", "{{project_id}}"]
+						},
+						"description": "Process a SPECIFIC uploaded file by its file_id. Uses the file_id auto-saved from the Upload request.\n\n**Parameters:**\n- `file_id` — The specific file to process (auto-filled from upload)\n- `chunk_size` (default: 100) — Max tokens per chunk\n- `overlap_size` (default: 20) — Token overlap between chunks\n- `do_reset` (0 or 1) — If 1, deletes existing chunks before processing"
+					},
+					"response": [
+						{
+							"name": "Processing Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"processing_success\",\n    \"inserted_chunks\": 28,\n    \"processed_files\": 1\n}"
+						}
+					]
+				},
+				{
+					"name": "Process with Reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Processing with reset completed', function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('processing_success');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"chunk_size\": 150,\n    \"overlap_size\": 30,\n    \"do_reset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/process/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "process", "{{project_id}}"]
+						},
+						"description": "Re-process all files with reset enabled. Deletes all existing chunks first, then re-processes with custom chunk/overlap sizes.\n\nUseful for experimenting with different chunking parameters."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🧠 NLP & Vector DB",
+			"description": "Vector indexing, semantic search, and RAG answer generation",
+			"item": [
+				{
+					"name": "Push to Vector DB",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Indexing successful', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Items were indexed', function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('insert_into_vectordb_success');",
+									"    pm.expect(jsonData.inserted_items_count).to.be.above(0);",
+									"    console.log('Indexed ' + jsonData.inserted_items_count + ' items into vector DB');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"do_reset\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/push/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "push", "{{project_id}}"]
+						},
+						"description": "Push all processed chunks from MongoDB into the vector database (ChromaDB/Qdrant). This embeds the text and creates searchable vectors.\n\n**Parameters:**\n- `do_reset` (0 or 1) — If 1, clears the existing vector collection before pushing"
+					},
+					"response": [
+						{
+							"name": "Push Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"insert_into_vectordb_success\",\n    \"inserted_items_count\": 42\n}"
+						}
+					]
+				},
+				{
+					"name": "Push to Vector DB (with Reset)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"do_reset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/push/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "push", "{{project_id}}"]
+						},
+						"description": "Push chunks to vector DB with reset. Clears the existing collection and re-indexes everything from scratch."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Vector DB Collection Info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Collection info retrieved', function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('vectordb_collection_retrieved');",
+									"    pm.expect(jsonData).to.have.property('collection_info');",
+									"    console.log('Collection info:', JSON.stringify(jsonData.collection_info));",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/info/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "info", "{{project_id}}"]
+						},
+						"description": "Get information about the vector DB collection for a project — number of stored vectors, collection name, etc."
+					},
+					"response": [
+						{
+							"name": "Info Retrieved",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"vectordb_collection_retrieved\",\n    \"collection_info\": {\n        \"collection_name\": \"project_test_project\",\n        \"vectors_count\": 42\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Semantic Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Search returned results', function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('vectordb_search_success');",
+									"    pm.expect(jsonData.results).to.be.an('array');",
+									"    console.log('Found ' + jsonData.results.length + ' results');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"What is machine learning?\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/search/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "search", "{{project_id}}"]
+						},
+						"description": "Perform a semantic search on the project's vector DB collection. Uses vector similarity + BGE reranking for accurate results.\n\n**Parameters:**\n- `text` — The search query\n- `limit` (default: 5) — Maximum number of results to return"
+					},
+					"response": [
+						{
+							"name": "Search Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"vectordb_search_success\",\n    \"results\": [\n        {\n            \"text\": \"Machine learning is a subset of AI...\",\n            \"score\": 0.95\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Semantic Search (Arabic)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"ما هو التعلم الآلي؟\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/search/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "search", "{{project_id}}"]
+						},
+						"description": "Semantic search using Arabic query text. The GTE multilingual model supports Arabic natively."
+					},
+					"response": []
+				},
+				{
+					"name": "RAG Answer (English)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('RAG answer generated', function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.signal).to.eql('rag_answer_success');",
+									"    pm.expect(jsonData).to.have.property('answer');",
+									"    pm.expect(jsonData).to.have.property('full_prompt');",
+									"    console.log('Answer: ' + jsonData.answer);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Explain the main concepts covered in this document\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/answer/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "answer", "{{project_id}}"]
+						},
+						"description": "Ask a question and get an AI-generated answer based on the document content (RAG). Returns the answer, the full prompt sent to the LLM, and chat history.\n\n**Parameters:**\n- `text` — The question to answer\n- `limit` (default: 5) — Number of relevant chunks to use as context"
+					},
+					"response": [
+						{
+							"name": "RAG Answer Success",
+							"status": "OK",
+							"code": 200,
+							"body": "{\n    \"signal\": \"rag_answer_success\",\n    \"answer\": \"The main concepts covered include...\",\n    \"full_prompt\": \"Based on the following context...\",\n    \"chat_history\": []\n}"
+						}
+					]
+				},
+				{
+					"name": "RAG Answer (Arabic)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"اشرح المفاهيم الأساسية في هذا المستند\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/answer/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "answer", "{{project_id}}"]
+						},
+						"description": "RAG question answering in Arabic. The system uses Arabic RAG templates for generating responses."
+					},
+					"response": []
+				},
+				{
+					"name": "RAG Answer (More Context)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Give me a detailed summary of all topics\",\n    \"limit\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/answer/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "answer", "{{project_id}}"]
+						},
+						"description": "RAG answer with increased context limit (10 chunks instead of default 5). Useful for broader questions that need more document context."
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔄 Full Workflow",
+			"description": "Run these requests in order for a complete end-to-end test",
+			"item": [
+				{
+					"name": "Step 1 — Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", ""]
+						},
+						"description": "Verify the server is running before starting the workflow."
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2 — Upload PDF",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.file_id) {",
+									"    pm.collectionVariables.set('file_id', jsonData.file_id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "",
+									"description": "Select your PDF file"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/upload/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "upload", "{{project_id}}"]
+						},
+						"description": "Upload a PDF file. The file_id will be auto-saved for the next steps."
+					},
+					"response": []
+				},
+				{
+					"name": "Step 3 — Process PDF",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"chunk_size\": 100,\n    \"overlap_size\": 20,\n    \"do_reset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/data/process/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "data", "process", "{{project_id}}"]
+						},
+						"description": "Process all uploaded files — extract text, chunk semantically, store in MongoDB."
+					},
+					"response": []
+				},
+				{
+					"name": "Step 4 — Push to Vector DB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"do_reset\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/push/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "push", "{{project_id}}"]
+						},
+						"description": "Index all chunks into the vector database for semantic search."
+					},
+					"response": []
+				},
+				{
+					"name": "Step 5 — Search",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"What is this document about?\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/search/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "search", "{{project_id}}"]
+						},
+						"description": "Search the indexed documents with a natural language query."
+					},
+					"response": []
+				},
+				{
+					"name": "Step 6 — RAG Answer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Summarize the key points of this document\",\n    \"limit\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/nlp/index/answer/{{project_id}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "v1", "nlp", "index", "answer", "{{project_id}}"]
+						},
+						"description": "Get an AI-generated answer based on the document content."
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

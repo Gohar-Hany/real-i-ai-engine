@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "chunk_id": "6a27fc106e3ede34f6915eba",
+        "chunk_text": "## Math Basics\n\n- Introduction to Statistics\n- Descriptive Statistics\n\n## Data Analysis\n\nStatistics provide the tools to analyze and interpret data, which is the backbone of A/. Understanding data distributions, variability, and patterns is crucial for building robust models.\n\n## Decision Making\n\nAl models often make decisions based on probabilities. Understanding probability and statistical inference is key to trusting and explaining these decisions:\n\n## Model Evaluation\n\nIn AI, especially in machine learning, evaluating the performance of models (e.g., accuracy, precision, recall) relies on statistical measures:",
+        "question": "What are the key components of statistics that are essential for analyzing and interpreting data according to the textbook?",
+        "ground_truth_answer": "The key components of statistics essential for analyzing and interpreting data are understanding data distributions, variability, and patterns.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 2,
+        "chunk_id": "6a27fc106e3ede34f6915ebb",
+        "chunk_text": "## Real-World Applications\n\nFrom predicting customer behavior to diagnosing diseases in healthcare, statistics provide the foundation for analyzing data and making informed decisions.\n\n## Population\n\nThe entire group of individuals or items that you're interested in studying:\n\nExample: If you want to study the average height of adult males in a country, the population would be all adult males in that country.\n\n## Basic Statistical Definitions\n\nPopulation vS: Sample",
+        "question": "What is the definition of a population in statistics as described in the textbook?",
+        "ground_truth_answer": "The population is the entire group of individuals or items that you're interested in studying.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 3,
+        "chunk_id": "6a27fc106e3ede34f6915ebd",
+        "chunk_text": "## Categorical (Qualitative) Variables\n\nThese variables represent categories or groups and can be either:\n\n- Nominal: No inherent order among categories Examples include colors (red, blue, green) , gender (male, female):\n- Ordinal: There is an inherent order, but the difference between levels is not quantifiable. Examples include customer satisfaction ratings (poor, fair, good, excellent) , education levels (high school, bachelors, master's):",
+        "question": "What are the two types of categorical variables mentioned in the text, and how are they defined?",
+        "ground_truth_answer": "The two types of categorical variables mentioned are nominal and ordinal. Nominal variables have no inherent order among categories, such as colors (red, blue, green) and gender (male, female). Ordinal variables have an inherent order, but the difference between levels is not quantifiable, such as customer satisfaction ratings (poor, fair, good, excellent) and education levels (high school, bachelors, master's).",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 4,
+        "chunk_id": "6a27fc106e3ede34f6915ebe",
+        "chunk_text": "## Numerical (Quantitative) Variables\n\nThese variables represent measurable quantities and can be either:\n\n- Discrete: Countable, finite values. Examples include the number of students in a class, the number of cars in a parking lot:\n- Continuous: Infinite possibilities within a range. Examples include height, weight, temperature.\n\n## Examples of Statistics in Al Applications\n\n- Fraud Detection: Analyzing transaction data to identify patterns that indicate fraudulent activity. Here, statistics help to detect anomalies that deviate from normal behavior.\n- Recommendation Systems: E-commerce platforms Iike Amazon use statistics to analyze customer preferences and recommend products based on what similar customers have purchased:\n- Healthcare Analytics: Predicting the likelihood of diseases based on patient data. Statistical models can assess risk factors and provide personalized healthcare recommendations:\n\n---",
+        "question": "What are the two types of numerical (quantitative) variables mentioned in the text, and how are they defined?",
+        "ground_truth_answer": "The two types of numerical (quantitative) variables mentioned in the text are discrete and continuous. Discrete variables are countable and have finite values, such as the number of students in a class or the number of cars in a parking lot. Continuous variables have infinite possibilities within a range, such as height, weight, and temperature.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 5,
+        "chunk_id": "6a27fc106e3ede34f6915ec0",
+        "chunk_text": "## Data Matrix\n\nA data matrix is a structured table where each row represents a single case (individual data point) , and each column represents a variable (characteristic or feature of the cases)\n\n| Variables   | Variables         | Variables   | Variables           | Variables           | Variables   | Variables   | Variables   |\n|-------------|-------------------|-------------|---------------------|---------------------|-------------|-------------|-------------|\n|             | sepal Length epal | width petal | length Ipetal width | class               |             |             |             |\n|             | 5.1               | 3.5         | 1.4                 | 0.2/Iris-setosa     |             |             |             |\n|             | 4.9               | 3           | 1.4                 | 0.2/Iris-setosa     |             |             |             |\n|             | 6 .5              | 3.2         | 5.1                 | 2uris-Virginica     |             |             |             |\n|             | 6 . 4             | 2.7         | 5.3                 | L9uris-Virginica    |             |             |             |\n|             | 6.8               | 3           | 5.5                 | 21uris-virginica    |             |             |             |\n|             | 6 .7              | 3.1         | 44                  | 1.4 Iris-versicolor |             |             |             |\n|             | 5.6               | 3           | 4.5                 | 1.5 Iris-versicolor |             |             |             |\n|             | 5.3               | 2.7         | 41                  | Iris-versicolor     |             |             |             |",
+        "question": "What does each row and each column in a data matrix represent?",
+        "ground_truth_answer": "In a data matrix, each row represents a single case (individual data point), and each column represents a variable (characteristic or feature of the cases).",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 6,
+        "chunk_id": "6a27fc106e3ede34f6915ec1",
+        "chunk_text": "## Data Matrix\n\n- Purpose: The data matrix is useful for raw data representation where each case's specific details are important: It's a comprehensive way to store all the information but not necessarily the best for summarizing data.\n- When to Use: Data matrices are used in scenarios where you need to keep all details about each individual case, such as during data collection or when you need to perform case-by-case analysis:",
+        "question": "What is the purpose of a data matrix according to the textbook?",
+        "ground_truth_answer": "The purpose of the data matrix is to provide a comprehensive way to store all the information where each case's specific details are important, but it is not necessarily the best for summarizing data.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 7,
+        "chunk_id": "6a27fc106e3ede34f6915ec3",
+        "chunk_text": "## Frequency Table\n\n- Purpose: Frequency tables are used to summarize and visualize the distribution of a variable, making it easier to see patterns and understand the data's structure.\n- When to Use: When you want to quickly grasp how data is distributed across different categories or ranges, especially when dealing with categorical or quantitative variables:\n\n## Measures of Central Tendency\n\nUnderstand how to describe the center of a dataset using different measures and learn how to calculate and interpret these values.",
+        "question": "What is the purpose of frequency tables as described in the text?",
+        "ground_truth_answer": "The purpose of frequency tables is to summarize and visualize the distribution of a variable, making it easier to see patterns and understand the data's structure.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 8,
+        "chunk_id": "6a27fc106e3ede34f6915ec4",
+        "chunk_text": "## Mean (Average)\n\nThe mean is the sum of all values divided by the number of values. It is a commonly used measure of central tendency:\n\n## Example\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\n<!-- formula-not-decoded -->\n\nThe mean is sensitive to outliers. If the dataset has extreme values (very high or very low) , the mean can be misleading\n\n## Median\n\nThe median is the middle value of a dataset when it is ordered from smallest to largest. If the dataset has an even number of values, the median is the average of the two middle values:",
+        "question": "What is the definition of the mean as described in the textbook?",
+        "ground_truth_answer": "The mean is the sum of all values divided by the number of values.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 9,
+        "chunk_id": "6a27fc106e3ede34f6915ec6",
+        "chunk_text": "## Measures of Central Tendency\n\n---\n\n## Mode\n\nThe mode is the value that appears most frequently in a dataset:\n\n## Example\n\nIn the dataset [4,8,6,5,3,4], the mode is 4 because it appears twice, more than other number. any\n\nThe mode is useful for categorical data and for identifying the most common item in a dataset. A dataset can have more than one mode (bimodal or multimodal) or no mode at all:",
+        "question": "What is the mode in the dataset [4,8,6,5,3,4]?",
+        "ground_truth_answer": "The mode is 4 because it appears twice, more than any other number.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 10,
+        "chunk_id": "6a27fc106e3ede34f6915ec7",
+        "chunk_text": "## Measures of Dispersion\n\nLearn how to describe the spread or variability of a dataset using different measures.\n\n## Range\n\nThe range is the difference between the maximum and minimum values in a dataset:\n\n## Formula\n\nRange = Max value Min value.\n\n## Example\n\nFor the dataset [4,8,6,5,3,4], the range is 8-3-5.\n\nThe range gives a quick sense of the spread of the data but is highly sensitive to outliers.",
+        "question": "What is the formula for calculating the range of a dataset?",
+        "ground_truth_answer": "Range = Max value - Min value.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 11,
+        "chunk_id": "6a27fc106e3ede34f6915ec9",
+        "chunk_text": "## Why Use IQR?\n\n- Robustness Against Outliers: Unlike the range, which considers only the minimum and maximum values, the IQR focuses on the middle 50% of the data: This makes it less sensitive to outliers and extreme values, providing a more reliable measure of dispersion for skewed distributions.\n- Understanding Data Spread: The IQR helps understand the variability of the central portion of the data: A larger IQR indicates more spread in the middle 50% of the dataset, while a smaller IQR suggests that the data points are closer to the median.",
+        "question": "What does a larger IQR indicate about the spread of the middle 50% of the dataset?",
+        "ground_truth_answer": "A larger IQR indicates more spread in the middle 50% of the dataset.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 12,
+        "chunk_id": "6a27fc106e3ede34f6915eca",
+        "chunk_text": "## Example Calculation of IQR\n\nLet's use a small dataset to illustrate: Dataset: [2,4,4,5,6,8,9]\n\n1. Arrange the data in ascending order (already sorted in this case):\n2. Find Q1 and Q3:\n3. Q1 (First Quartile): The median of the first half of the dataset (excluding the median if the number of data points is odd): For [2,4,4], Q1 =4\n4. Q3 (Third Quartile): The median of the second half of the dataset: For [6,8,9], Q3 = 8\n3. Calculate IQR:\n\n<!-- formula-not-decoded -->",
+        "question": "What is the value of Q1 for the dataset [2,4,4,5,6,8,9]?",
+        "ground_truth_answer": "Q1 (First Quartile) for the dataset [2,4,4,5,6,8,9] is 4.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 13,
+        "chunk_id": "6a27fc106e3ede34f6915ecc",
+        "chunk_text": "## Standard Deviation\n\nThe standard deviation is the square root of the variance and provides a measure of the average distance from the mean: It is in the same units as the data, making it more interpretable.\n\n## Example\n\nFor the dataset [4,8,6,5,3,4], the standard deviation is:\n\n<!-- formula-not-decoded -->\n\nA small standard deviation indicates that the values are close to the mean, while a large standard deviation indicates that the values are spread out over a wider range.",
+        "question": "What does a small standard deviation indicate about the values in a dataset?",
+        "ground_truth_answer": "A small standard deviation indicates that the values are close to the mean.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 14,
+        "chunk_id": "6a27fc106e3ede34f6915ecd",
+        "chunk_text": "## Descriptive Statistics\n\nData Distribution and Visualization\n\nLearn how to visualize data distribution and understand its shape using graphical representations.\n\n## Data Distribution and Visualization\n\nHistograms: A histogram is a graphical representation that organizes a group of data points into user-specified ranges. It shows the frequency distribution of a dataset\n\nExample: Create a histogram for a dataset representing the number of books read by students in a class.\n\nHistograms help visualize the shape of the data distribution (e.g , normal, skewed) and identify patterns like bimodality or skewness.\n\n---",
+        "question": "What is a histogram and what purpose does it serve in data distribution visualization?",
+        "ground_truth_answer": "A histogram is a graphical representation that organizes a group of data points into user-specified ranges. It shows the frequency distribution of a dataset and helps visualize the shape of the data distribution (e.g., normal, skewed) and identify patterns like bimodality.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    },
+    {
+        "id": 15,
+        "chunk_id": "6a27fc106e3ede34f6915ecf",
+        "chunk_text": "## Quartiles:\n\nFirst Quartile (Q1, 25th percentile): The left edge of the box represents the 25th percentile, indicating that 25% of the students scored below this value.\n\nThird Quartile (Q3, 75th percentile): The right edge of the box represents the 75th percentile, showing that 75% of the students scored below this value.",
+        "question": "What does the left edge of the box in a box plot represent?",
+        "ground_truth_answer": "The left edge of the box represents the 25th percentile, indicating that 25% of the students scored below this value.",
+        "source_document": "lha1b6s0pc30_Math_Session_1.pdf"
+    }
+]

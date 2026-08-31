@@ -1,0 +1,432 @@
+{
+    "total_queries_evaluated": 15,
+    "averages": {
+        "retrieval": {
+            "with_rerank": {
+                "hit@1": 1.0,
+                "hit@3": 1.0,
+                "hit@5": 1.0,
+                "mrr": 1.0,
+                "ndcg@3": 1.0,
+                "ndcg@5": 1.0
+            },
+            "no_rerank": {
+                "hit@1": 0.6666666666666666,
+                "hit@3": 1.0,
+                "hit@5": 1.0,
+                "mrr": 0.8222222222222223,
+                "ndcg@3": 0.8682479342857221,
+                "ndcg@5": 0.8682479342857221
+            }
+        },
+        "rag_generation": {
+            "faithfulness": 1.0,
+            "answer_relevancy": 0.9933333333333334,
+            "context_relevancy": 0.9066666666666667,
+            "rouge_l": 0.53557175401446,
+            "semantic_similarity": 0.8960895751193919
+        },
+        "raw_llm_generation": {
+            "rouge_l": 0.39715557180887123,
+            "semantic_similarity": 0.8553168046044841
+        },
+        "latency": {
+            "avg_retrieval_seconds": 7.22864982287089,
+            "avg_generation_seconds": 9.291925112406412,
+            "avg_total_seconds": 16.520574935277303,
+            "p95_total_seconds": 24.809039664268493
+        }
+    },
+    "queries_detail": [
+        {
+            "id": 1,
+            "question": "What are the key components of statistics that are essential for analyzing and interpreting data according to the textbook?",
+            "ground_truth_answer": "The key components of statistics essential for analyzing and interpreting data are understanding data distributions, variability, and patterns.",
+            "rag_answer": "The key components of statistics essential for analyzing and interpreting data include:\n\n1. **Descriptive Statistics**: This involves summarizing and organizing data through numerical calculations, graphs, and tables, which provides a clear understanding of the dataset.\n\n2. **Data Analysis**: Statistics offer tools to analyze data distributions, variability, and patterns, which are crucial for building robust models.\n\n3. **Probability and Statistical Inference**: Understanding these concepts is vital for making decisions based on probabilities and for trusting the outcomes of statistical analyses.\n\n4. **Model Evaluation**: In AI and machine learning, evaluating model performance using statistical measures such as accuracy, precision, and recall is essential.\n\n5. **Data Visualization**: Techniques like histograms help visualize data distribution, allowing for the identification of patterns and the shape of the data.\n\nThese components collectively support informed decision-making and effective data interpretation.",
+            "raw_answer": "The key components of statistics essential for analyzing and interpreting data typically include:\n\n1. **Descriptive Statistics**: Summarizes and describes the main features of a dataset through measures such as mean, median, mode, variance, and standard deviation.\n\n2. **Inferential Statistics**: Involves making predictions or inferences about a population based on a sample, using techniques such as hypothesis testing, confidence intervals, and regression analysis.\n\n3. **Data Collection**: Methods for gathering data, including surveys, experiments, and observational studies, ensuring the data is reliable and valid.\n\n4. **Probability**: The study of randomness and uncertainty, providing the foundation for inferential statistics.\n\n5. **Data Visualization**: Techniques for presenting data visually through graphs, charts, and plots to facilitate understanding and interpretation.\n\n6. **Statistical Models**: Frameworks for representing relationships within data, including linear models, logistic regression, and more complex models.\n\nThese components work together to enable effective data analysis and",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 2,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.8,
+                "rouge_l_rag": 0.2119205298013245,
+                "rouge_l_raw": 0.175,
+                "semantic_similarity_rag": 0.8024471673473667,
+                "semantic_similarity_raw": 0.7861514573257353
+            },
+            "latency": {
+                "retrieval": 13.268182754516602,
+                "generation": 12.686013460159302,
+                "total": 25.954196214675903
+            }
+        },
+        {
+            "id": 2,
+            "question": "What is the definition of a population in statistics as described in the textbook?",
+            "ground_truth_answer": "The population is the entire group of individuals or items that you're interested in studying.",
+            "rag_answer": "In statistics, a population is defined as the entire group of individuals or items that you are interested in studying. For example, if you want to study the average height of adult males in a country, the population would be all adult males in that country.",
+            "raw_answer": "In statistics, a population is defined as the entire set of individuals, items, or data points that share a common characteristic and are of interest in a particular study or analysis. It encompasses all possible observations that can be made regarding the subject being investigated.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 1.0,
+                "rouge_l_rag": 0.4262295081967213,
+                "rouge_l_raw": 0.26666666666666666,
+                "semantic_similarity_rag": 0.8917700882998292,
+                "semantic_similarity_raw": 0.8452882661104489
+            },
+            "latency": {
+                "retrieval": 6.453370809555054,
+                "generation": 8.50514554977417,
+                "total": 14.958516359329224
+            }
+        },
+        {
+            "id": 3,
+            "question": "What are the two types of categorical variables mentioned in the text, and how are they defined?",
+            "ground_truth_answer": "The two types of categorical variables mentioned are nominal and ordinal. Nominal variables have no inherent order among categories, such as colors (red, blue, green) and gender (male, female). Ordinal variables have an inherent order, but the difference between levels is not quantifiable, such as customer satisfaction ratings (poor, fair, good, excellent) and education levels (high school, bachelors, master's).",
+            "rag_answer": "The two types of categorical variables mentioned in the text are:\n\n1. **Nominal Variables**: These have no inherent order among the categories. Examples include colors (red, blue, green) and gender (male, female).\n\n2. **Ordinal Variables**: These have an inherent order, but the differences between levels are not quantifiable. Examples include customer satisfaction ratings (poor, fair, good, excellent) and education levels (high school, bachelor's, master's).",
+            "raw_answer": "The two types of categorical variables are nominal and ordinal. \n\n- **Nominal variables** are categories without a specific order or ranking (e.g., gender, color).\n- **Ordinal variables** have a defined order or ranking among the categories (e.g., satisfaction ratings, education levels).",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.6829268292682927,
+                "rouge_l_raw": 0.32,
+                "semantic_similarity_rag": 0.9136805315429177,
+                "semantic_similarity_raw": 0.8866146543299364
+            },
+            "latency": {
+                "retrieval": 10.441867351531982,
+                "generation": 13.876390933990479,
+                "total": 24.31825828552246
+            }
+        },
+        {
+            "id": 4,
+            "question": "What are the two types of numerical (quantitative) variables mentioned in the text, and how are they defined?",
+            "ground_truth_answer": "The two types of numerical (quantitative) variables mentioned in the text are discrete and continuous. Discrete variables are countable and have finite values, such as the number of students in a class or the number of cars in a parking lot. Continuous variables have infinite possibilities within a range, such as height, weight, and temperature.",
+            "rag_answer": "The two types of numerical (quantitative) variables mentioned are:\n\n1. **Discrete Variables**: These represent countable, finite values. Examples include the number of students in a class or the number of cars in a parking lot.\n\n2. **Continuous Variables**: These have infinite possibilities within a range. Examples include measurements such as height, weight, and temperature.",
+            "raw_answer": "The two types of numerical (quantitative) variables are:\n\n1. **Discrete Variables**: These are variables that can take on a finite number of values or countable values. Examples include the number of students in a class or the number of cars in a parking lot.\n\n2. **Continuous Variables**: These are variables that can take on an infinite number of values within a given range. Examples include height, weight, or temperature, where measurements can be made with great precision.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 2,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.6605504587155963,
+                "rouge_l_raw": 0.48484848484848486,
+                "semantic_similarity_rag": 0.9292397024167671,
+                "semantic_similarity_raw": 0.9133628765811487
+            },
+            "latency": {
+                "retrieval": 9.300920486450195,
+                "generation": 11.207059144973755,
+                "total": 20.50797963142395
+            }
+        },
+        {
+            "id": 5,
+            "question": "What does each row and each column in a data matrix represent?",
+            "ground_truth_answer": "In a data matrix, each row represents a single case (individual data point), and each column represents a variable (characteristic or feature of the cases).",
+            "rag_answer": "In a data matrix, each row represents a single case or individual data point, while each column represents a variable, which is a characteristic or feature of the cases.",
+            "raw_answer": "In a data matrix, each row typically represents an individual observation or data point, while each column represents a specific variable or feature associated with those observations.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.7037037037037037,
+                "rouge_l_raw": 0.576923076923077,
+                "semantic_similarity_rag": 0.9859447924243298,
+                "semantic_similarity_raw": 0.8889779211096862
+            },
+            "latency": {
+                "retrieval": 10.783365249633789,
+                "generation": 13.44180154800415,
+                "total": 24.22516679763794
+            }
+        },
+        {
+            "id": 6,
+            "question": "What is the purpose of a data matrix according to the textbook?",
+            "ground_truth_answer": "The purpose of the data matrix is to provide a comprehensive way to store all the information where each case's specific details are important, but it is not necessarily the best for summarizing data.",
+            "rag_answer": "The purpose of a data matrix, according to the textbook, is to provide a comprehensive way to store all the information where each case's specific details are important. It is particularly useful for raw data representation and is employed in scenarios where detailed case-by-case analysis is needed, such as during data collection.",
+            "raw_answer": "A data matrix is used to organize and represent data in a structured format, typically in rows and columns, allowing for efficient analysis and manipulation of the data. It facilitates the visualization of relationships between variables and supports various statistical and computational methods.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 0.9,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.558139534883721,
+                "rouge_l_raw": 0.2077922077922078,
+                "semantic_similarity_rag": 0.8595970357228577,
+                "semantic_similarity_raw": 0.6931229432266061
+            },
+            "latency": {
+                "retrieval": 10.62239384651184,
+                "generation": 13.69434928894043,
+                "total": 24.31674313545227
+            }
+        },
+        {
+            "id": 7,
+            "question": "What is the purpose of frequency tables as described in the text?",
+            "ground_truth_answer": "The purpose of frequency tables is to summarize and visualize the distribution of a variable, making it easier to see patterns and understand the data's structure.",
+            "rag_answer": "The purpose of frequency tables is to summarize and visualize the distribution of a variable, making it easier to see patterns and understand the data's structure. They are particularly useful when you want to quickly grasp how data is distributed across different categories or ranges, especially for categorical or quantitative variables.",
+            "raw_answer": "The purpose of frequency tables is to organize and summarize data by displaying the number of occurrences of each value or category within a dataset, making it easier to analyze and interpret the information.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 2,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.6753246753246753,
+                "rouge_l_raw": 0.5666666666666668,
+                "semantic_similarity_rag": 0.9515678705869915,
+                "semantic_similarity_raw": 0.8904525068169354
+            },
+            "latency": {
+                "retrieval": 5.770421504974365,
+                "generation": 8.142794132232666,
+                "total": 13.913215637207031
+            }
+        },
+        {
+            "id": 8,
+            "question": "What is the definition of the mean as described in the textbook?",
+            "ground_truth_answer": "The mean is the sum of all values divided by the number of values.",
+            "rag_answer": "The mean, or average, is defined as the sum of all values in a dataset divided by the number of values. It is a commonly used measure of central tendency. However, it is important to note that the mean is sensitive to outliers, which can make it misleading if the dataset contains extreme values.",
+            "raw_answer": "The mean, often referred to as the average, is defined as the sum of a set of values divided by the number of values in that set. It represents a central value of the data.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.3823529411764706,
+                "rouge_l_raw": 0.44897959183673464,
+                "semantic_similarity_rag": 0.7333886157519378,
+                "semantic_similarity_raw": 0.8770476389307068
+            },
+            "latency": {
+                "retrieval": 5.625133037567139,
+                "generation": 7.664517879486084,
+                "total": 13.289650917053223
+            }
+        },
+        {
+            "id": 9,
+            "question": "What is the mode in the dataset [4,8,6,5,3,4]?",
+            "ground_truth_answer": "The mode is 4 because it appears twice, more than any other number.",
+            "rag_answer": "The mode in the dataset [4,8,6,5,3,4] is 4, as it appears most frequently, occurring twice.",
+            "raw_answer": "The mode in the dataset [4, 8, 6, 5, 3, 4] is 4, as it appears most frequently.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 1.0,
+                "rouge_l_rag": 0.3571428571428571,
+                "rouge_l_raw": 0.3225806451612903,
+                "semantic_similarity_rag": 0.9012835377213617,
+                "semantic_similarity_raw": 0.8527368781464436
+            },
+            "latency": {
+                "retrieval": 5.417511224746704,
+                "generation": 7.54381251335144,
+                "total": 12.961323738098145
+            }
+        },
+        {
+            "id": 10,
+            "question": "What is the formula for calculating the range of a dataset?",
+            "ground_truth_answer": "Range = Max value - Min value.",
+            "rag_answer": "The formula for calculating the range of a dataset is:\n\n**Range = Max value - Min value.**\n\nThis gives you the difference between the maximum and minimum values in the dataset.",
+            "raw_answer": "The formula for calculating the range of a dataset is:\n\n**Range = Maximum value - Minimum value**",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.3157894736842105,
+                "rouge_l_raw": 0.3333333333333333,
+                "semantic_similarity_rag": 0.7417327066378773,
+                "semantic_similarity_raw": 0.7444862588492266
+            },
+            "latency": {
+                "retrieval": 5.217148303985596,
+                "generation": 5.928483724594116,
+                "total": 11.145632028579712
+            }
+        },
+        {
+            "id": 11,
+            "question": "What does a larger IQR indicate about the spread of the middle 50% of the dataset?",
+            "ground_truth_answer": "A larger IQR indicates more spread in the middle 50% of the dataset.",
+            "rag_answer": "A larger IQR indicates that there is more spread in the middle 50% of the dataset. This means that the data points in this central portion are more dispersed from the median, suggesting greater variability within that range.",
+            "raw_answer": "A larger IQR (Interquartile Range) indicates a greater spread of the middle 50% of the dataset, suggesting that the values in this range are more dispersed from each other.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.5098039215686275,
+                "rouge_l_raw": 0.47619047619047616,
+                "semantic_similarity_rag": 0.942787187548443,
+                "semantic_similarity_raw": 0.9643711133750993
+            },
+            "latency": {
+                "retrieval": 5.551231145858765,
+                "generation": 7.7853429317474365,
+                "total": 13.336574077606201
+            }
+        },
+        {
+            "id": 12,
+            "question": "What is the value of Q1 for the dataset [2,4,4,5,6,8,9]?",
+            "ground_truth_answer": "Q1 (First Quartile) for the dataset [2,4,4,5,6,8,9] is 4.",
+            "rag_answer": "The value of Q1 (First Quartile) for the dataset [2,4,4,5,6,8,9] is 4.",
+            "raw_answer": "The value of Q1 for the dataset [2, 4, 4, 5, 6, 8, 9] is 4.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 3,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.8571428571428571,
+                "rouge_l_raw": 0.4800000000000001,
+                "semantic_similarity_rag": 0.9867051851834459,
+                "semantic_similarity_raw": 0.9324495739226238
+            },
+            "latency": {
+                "retrieval": 5.328929901123047,
+                "generation": 6.638776540756226,
+                "total": 11.967706441879272
+            }
+        },
+        {
+            "id": 13,
+            "question": "What does a small standard deviation indicate about the values in a dataset?",
+            "ground_truth_answer": "A small standard deviation indicates that the values are close to the mean.",
+            "rag_answer": "A small standard deviation indicates that the values in a dataset are close to the mean. This means that the data points tend to be clustered around the average, showing less variability or spread among the values.",
+            "raw_answer": "A small standard deviation indicates that the values in a dataset are closely clustered around the mean, showing less variability or dispersion among the data points.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.52,
+                "rouge_l_raw": 0.5128205128205128,
+                "semantic_similarity_rag": 0.9154957335541394,
+                "semantic_similarity_raw": 0.886084217140596
+            },
+            "latency": {
+                "retrieval": 5.38975977897644,
+                "generation": 6.970831632614136,
+                "total": 12.360591411590576
+            }
+        },
+        {
+            "id": 14,
+            "question": "What is a histogram and what purpose does it serve in data distribution visualization?",
+            "ground_truth_answer": "A histogram is a graphical representation that organizes a group of data points into user-specified ranges. It shows the frequency distribution of a dataset and helps visualize the shape of the data distribution (e.g., normal, skewed) and identify patterns like bimodality.",
+            "rag_answer": "A histogram is a graphical representation that organizes a group of data points into user-specified ranges, showing the frequency distribution of a dataset. It serves the purpose of visualizing the shape of the data distribution, helping to identify patterns such as normality, skewness, or bimodality. For example, you can create a histogram to represent the number of books read by students in a class, which allows you to see how many students fall into different ranges of reading frequency.",
+            "raw_answer": "A histogram is a graphical representation of the distribution of numerical data, where the data is divided into intervals (bins) and the frequency of data points within each interval is represented by the height of bars. It serves to visualize the shape, spread, and central tendency of the data distribution, allowing for easy identification of patterns, trends, and outliers.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 1,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.4666666666666667,
+                "rouge_l_raw": 0.36000000000000004,
+                "semantic_similarity_rag": 0.9638665214667523,
+                "semantic_similarity_raw": 0.9410701312538826
+            },
+            "latency": {
+                "retrieval": 4.033283233642578,
+                "generation": 7.433045864105225,
+                "total": 11.466329097747803
+            }
+        },
+        {
+            "id": 15,
+            "question": "What does the left edge of the box in a box plot represent?",
+            "ground_truth_answer": "The left edge of the box represents the 25th percentile, indicating that 25% of the students scored below this value.",
+            "rag_answer": "The left edge of the box in a box plot represents the First Quartile (Q1), which is the 25th percentile. This indicates that 25% of the students scored below this value.",
+            "raw_answer": "The left edge of the box in a box plot represents the first quartile (Q1), which is the median of the lower half of the data set.",
+            "retrieval": {
+                "rank_with_rerank": 1,
+                "rank_no_rerank": 2,
+                "retrieved_docs_count": 5
+            },
+            "scores": {
+                "faithfulness": 1.0,
+                "answer_relevancy": 1.0,
+                "context_relevancy": 0.9,
+                "rouge_l_rag": 0.7058823529411764,
+                "rouge_l_raw": 0.425531914893617,
+                "semantic_similarity_rag": 0.9218369505858605,
+                "semantic_similarity_raw": 0.7275356319481882
+            },
+            "latency": {
+                "retrieval": 5.226228713989258,
+                "generation": 7.860511541366577,
+                "total": 13.086740255355835
+            }
+        }
+    ]
+}
