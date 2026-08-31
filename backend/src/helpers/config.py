@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     OPENAI_API_URL: Optional[str] = None
     COHERE_API_KEY: Optional[str] = None
 
-    GENERATION_MODEL_ID: Optional[str] = "openai/gpt-4o-mini"
+    GENERATION_MODEL_ID: Optional[str] = "qwen/qwen-2.5-72b-instruct"
     EMBEDDING_MODEL_ID: Optional[str] = "openai/text-embedding-3-small"
     EMBEDDING_MODEL_SIZE: Optional[int] = 1536
     INPUT_DAFAULT_MAX_CHARACTERS: Optional[int] = 16384
