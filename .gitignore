@@ -1,0 +1,65 @@
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment files
+.env
+src/.env
+token.json
+**/token.json
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+
+# Generated data (outputs, embeddings, extracted assets)
+data/
+mongodb_data/
+
+# Model caches
+*.safetensors
+*.bin
+models_cache/
+
+# Database files
+*.sqlite3
+**/chroma_db/
+**/raad_chroma_db/
+
+# Logs
+*.log
+
+# Content (input PDFs - too large for git)
+content/
+
+# Evaluation output files
+src/evaluation/evaluation_results.json
+src/evaluation/test_dataset.json
+src/tests/test_report.json
+
+# Asset runtime data (uploaded files & local DBs)
+src/assets/files/
+src/assets/database/
+src/assets/google_token.json
+
+# Excel temp files
+~$*
+
+# Gemini
+.gemini/
+
+logs

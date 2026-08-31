@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "description": "Known logo identifiers and heuristics for the Markdown Post-Processing Agent. Used to assist vision model classification.",
+
+  "known_logos": [
+    {
+      "id": "logo_001",
+      "label": "Academy / Educational Institution Logo",
+      "source": "sample.md — top of document",
+      "visual_hints": [
+        "Circular or shield-shaped emblem",
+        "Contains stylized text or monogram",
+        "Small dimensions relative to page width",
+        "Appears at top or bottom of document (header/footer region)",
+        "Monochrome or limited color palette"
+      ],
+      "keyword_hints": [
+        "academy",
+        "institute",
+        "college",
+        "university",
+        "school",
+        "education",
+        "faculty"
+      ],
+      "heuristics": {
+        "typical_position": "header or footer",
+        "typical_size_px": "under 200x200",
+        "aspect_ratio": "roughly square or portrait"
+      },
+      "action": "REMOVE"
+    },
+    {
+      "id": "logo_002",
+      "label": "Initiative / Organization Branding Logo",
+      "source": "sample.md — top of document",
+      "visual_hints": [
+        "Complex emblem with layered shapes or icons",
+        "May contain Arabic or bilingual text",
+        "Often includes a name or acronym beneath the graphic",
+        "Decorative border or framing element",
+        "Appears alongside or adjacent to logo_001"
+      ],
+      "keyword_hints": [
+        "initiative",
+        "organization",
+        "programme",
+        "project",
+        "ministry",
+        "authority",
+        "center",
+        "centre",
+        "council",
+        "foundation",
+        "national",
+        "egyptian",
+        "arab"
+      ],
+      "heuristics": {
+        "typical_position": "header or footer",
+        "typical_size_px": "under 300x150",
+        "aspect_ratio": "landscape or square"
+      },
+      "action": "REMOVE"
+    }
+  ],
+
+  "general_removal_rules": [
+    "Remove any image that is predominantly a text-based wordmark or monogram",
+    "Remove any image that appears in the first or last 5% of document vertical space and is non-diagrammatic",
+    "Remove any image with dimensions smaller than 250x250px that contains no chart, graph, or technical figure",
+    "Remove any image explicitly matching a keyword from known_logos[].keyword_hints when confirmed by vision model"
+  ],
+
+  "general_keep_rules": [
+    "Keep diagrams, flowcharts, architecture diagrams, and technical figures",
+    "Keep charts, graphs, plots, and data visualizations",
+    "Keep screenshots or UI mockups with instructional value",
+    "Keep images that contain equations or mathematical notation",
+    "Keep any image occupying more than 30% of page width that is not a banner/header"
+  ],
+
+  "vision_model_prompt_hint": "Is this image a logo, branding mark, organizational emblem, or purely decorative element? Answer only YES or NO.",
+
+  "notes": "Populated from sample.md — two logos identified at document header. Expand this file as new documents are processed."
+}
